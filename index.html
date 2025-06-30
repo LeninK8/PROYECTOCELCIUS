@@ -3,147 +3,132 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Proyecto Celsius: Antídoto Cero</title>
-  <link rel="stylesheet" href="style.css" />
+  <title>🌍 Proyecto Celsius: Antídoto Cero</title>
+  <style>
+    /* Reset general */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    /* Tipografía y fondo */
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #0a0a0a;
+      color: #e0e0e0;
+      line-height: 1.6;
+    }
+
+    /* Header estilizado */
+    header {
+      background-image: url('https://images.unsplash.com/photo-1618221735685-2b6d1222bd5a?auto=format&fit=crop&w=1500&q=80'); /* Fondo épico */
+      background-size: cover;
+      background-position: center;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      position: relative;
+    }
+
+    .overlay {
+      background-color: rgba(0, 0, 0, 0.75);
+      padding: 2rem;
+      border-radius: 12px;
+      border: 2px solid #00f0ff77;
+      backdrop-filter: blur(6px);
+    }
+
+    header h1 {
+      font-size: 3.5rem;
+      color: #00d9ff;
+      letter-spacing: 2px;
+    }
+
+    header h2 {
+      font-size: 2rem;
+      color: #ff0040;
+      margin-top: 0.5rem;
+    }
+
+    .sub {
+      font-style: italic;
+      margin-top: 1rem;
+      color: #ccc;
+    }
+
+    .btn {
+      margin-top: 2rem;
+      background-color: #ffd700;
+      color: #000;
+      padding: 0.8rem 1.5rem;
+      border: none;
+      border-radius: 30px;
+      text-decoration: none;
+      font-weight: bold;
+      transition: all 0.3s ease;
+      box-shadow: 0 0 12px #ffd70055;
+    }
+
+    .btn:hover {
+      background-color: #fff;
+      color: #111;
+      box-shadow: 0 0 20px #ffd700aa;
+    }
+
+    /* Secciones */
+    section {
+      padding: 4rem 2rem;
+      background-color: #111;
+      text-align: center;
+    }
+
+    section h2 {
+      color: #00c3ff;
+      font-size: 2rem;
+      margin-bottom: 1rem;
+    }
+
+    section p {
+      max-width: 800px;
+      margin: auto;
+      font-size: 1.1rem;
+      color: #ccc;
+    }
+
+    /* Footer */
+    footer {
+      background-color: #0d0d0d;
+      text-align: center;
+      padding: 1rem;
+      font-size: 0.9rem;
+      color: #777;
+    }
+  </style>
 </head>
 <body>
   <header>
-    <h1>🌍 Proyecto Celsius: Antídoto Cero</h1>
-    <nav>
-      <ul>
-        <li><a href="#inicio">Inicio</a></li>
-        <li><a href="#historia">Historia</a></li>
-        <li><a href="#personajes">Personajes</a></li>
-        <li><a href="#ruta">Ruta</a></li>
-        <li><a href="#kira">KIRA</a></li>
-      </ul>
-    </nav>
-  </header>
-
-  <section id="inicio" class="hero">
-    <div class="hero-content">
-      <h2>La humanidad se congela... y ellos son la última esperanza.</h2>
-      <p>Únete al viaje por el fin del mundo en busca de la cura.</p>
-      <a href="#historia" class="btn">Explorar</a>
+    <div class="overlay">
+      <h1>🌌 Proyecto Celsius</h1>
+      <h2>Antídoto Cero</h2>
+      <p class="sub">Una misión contra el hielo, el tiempo... y la extinción.</p>
+      <a href="#historia" class="btn">Entrar al archivo</a>
     </div>
-  </section>
+  </header>
 
   <section id="historia">
     <h2>🧬 Historia</h2>
     <p>
-      El virus VX-HELIOS ha arrasado con el planeta. Solo tres adolescentes, separados de sus familias, se embarcan en una misión para salvar lo que queda de la humanidad...
+      El mundo colapsó. El virus VX-HELIOS congeló ciudades, corazones y esperanzas.
+      Tres jóvenes —Lenin, Nick y Elías— separados de sus familias, cruzan continentes
+      en busca de la cura. Una IA llamada KIRA podría ser la clave... o el fin.
     </p>
   </section>
 
-  <section id="personajes">
-    <h2>🧑‍🤝‍🧑 Personajes</h2>
-    <ul class="cards">
-      <li><strong>Lenin</strong>: El estratega frío y calculador 🧠</li>
-      <li><strong>Nick</strong>: El valiente impulsivo 💥</li>
-      <li><strong>Elías</strong>: El analista y genio lógico 🧮</li>
-    </ul>
-  </section>
-
-  <section id="ruta">
-    <h2>🗺️ Ruta del Viaje</h2>
-    <p>México → Canadá → Polo Norte → EE.UU. → Antártida</p>
-  </section>
-
-  <section id="kira">
-    <h2>🤖 KIRA GENESIS</h2>
-    <p>Una IA con libre albedrío. Ni buena. Ni mala. Solo... despierta.</p>
-  </section>
-
   <footer>
-    <p>© 2025 Proyecto Celsius | Todos los derechos reservados</p>
+    <p>© 2025 Proyecto Celsius | Clasificado | Acceso restringido</p>
   </footer>
 </body>
-  * {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-body {
-  font-family: 'Segoe UI', sans-serif;
-  background-color: #0a0a0a;
-  color: #e0e0e0;
-  line-height: 1.6;
-}
-
-header {
-  background: linear-gradient(to right, #000000, #001f3f);
-  padding: 1rem 2rem;
-  text-align: center;
-}
-
-header h1 {
-  font-size: 2rem;
-  color: #00d9ff;
-}
-
-nav ul {
-  list-style: none;
-  display: flex;
-  justify-content: center;
-  gap: 1.5rem;
-  margin-top: 0.5rem;
-}
-
-nav a {
-  color: #ffffff;
-  text-decoration: none;
-  font-weight: bold;
-}
-
-.hero {
-  background-image: url('assets/fondo-frio.jpg'); /* Agrega tu fondo helado */
-  background-size: cover;
-  background-position: center;
-  padding: 5rem 2rem;
-  text-align: center;
-}
-
-.hero-content h2 {
-  font-size: 2.5rem;
-  color: #00c3ff;
-}
-
-.hero-content p {
-  font-size: 1.2rem;
-  margin: 1rem 0;
-}
-
-.btn {
-  display: inline-block;
-  background-color: #ff0040;
-  color: white;
-  padding: 0.75rem 1.5rem;
-  border-radius: 5px;
-  text-decoration: none;
-  font-weight: bold;
-}
-
-section {
-  padding: 3rem 2rem;
-  text-align: center;
-}
-
-.cards {
-  list-style: none;
-  margin-top: 1rem;
-}
-
-.cards li {
-  margin: 0.5rem 0;
-  font-size: 1.1rem;
-}
-
-footer {
-  background-color: #111;
-  text-align: center;
-  padding: 1rem;
-  font-size: 0.9rem;
-  color: #777;
-}
 </html>
