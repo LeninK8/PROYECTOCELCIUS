@@ -5,12 +5,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>🌍 Proyecto Celsius: Antídoto Cero</title>
   <style>
+    /* Reset general */
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
     }
 
+    /* Tipografía y fondo */
     body {
       font-family: 'Segoe UI', sans-serif;
       background-color: #0a0a0a;
@@ -18,6 +20,7 @@
       line-height: 1.6;
     }
 
+    /* Header estilizado */
     header {
       background-image: url('https://images.unsplash.com/photo-1618221735685-2b6d1222bd5a?auto=format&fit=crop&w=1500&q=80');
       background-size: cover;
@@ -56,6 +59,7 @@
       color: #ccc;
     }
 
+    /* Botón */
     .btn {
       margin-top: 2rem;
       background-color: #ffd700;
@@ -67,6 +71,7 @@
       font-weight: bold;
       transition: all 0.3s ease;
       box-shadow: 0 0 12px #ffd70055;
+      display: inline-block;
     }
 
     .btn:hover {
@@ -75,6 +80,7 @@
       box-shadow: 0 0 20px #ffd700aa;
     }
 
+    /* Secciones */
     section {
       padding: 4rem 2rem;
       background-color: #111;
@@ -87,14 +93,16 @@
       margin-bottom: 1rem;
     }
 
-    section p, section div {
-      max-width: 800px;
+    section p, section ul {
+      max-width: 900px;
       margin: auto;
-      font-size: 1.1rem;
+      font-size: 1.05rem;
       color: #ccc;
-      text-align: left;
+      text-align: justify;
+      margin-bottom: 1rem;
     }
 
+    /* Footer */
     footer {
       background-color: #0d0d0d;
       text-align: center;
@@ -114,46 +122,35 @@
   </header>
 
   <section>
-    <a href="#historia" class="btn">Entrar al archivo</a>
+    <h2>📁 Acceso al Archivo</h2>
+    <p>Explora los documentos confidenciales del caso VX-CEROUM.</p>
+    <a href="archivo001.html" class="btn">Entrar al archivo</a>
   </section>
 
   <section id="historia">
-    <h2>🧬 Historia del Virus VX-CEROUM</h2>
-    <div>
-      <p><strong>Origen ancestral – Hace millones de años</strong><br>
-      Un meteorito de composición desconocida atravesó la atmósfera terrestre. Al ingresar, se fragmentó parcialmente por la fricción, pero su núcleo principal cayó con fuerza en lo que hoy es la Antártida. Su impacto perforó las capas terrestres hasta hundirse aproximadamente 3.4 km en la corteza de hielo y roca. Este meteorito albergaba un virus antiguo y desconocido que, al hacer contacto con el entorno terrestre, comenzó a formar un ecosistema cerrado, mutando plantas y microorganismos.</p>
+    <h2>🧬 HISTORIA DEL VIRUS VX-CEROUM</h2>
 
-      <p><strong>Año 2000 – El descubrimiento del ecosistema</strong><br>
-      Científicos detectaron una actividad térmica y biológica inusual en la zona del impacto. Una expedición fue enviada por la corporación privada AethraTech, especializada en bioinvestigación. Durante la excavación, descubrieron una cámara subterránea llena de flora alienígena y estructuras vegetales desconocidas.
-      El investigador Dr. Lennart Vasquez fue el primero en entrar. Se acercó al núcleo del meteorito, donde quedaba una parte brillante, viva. Al tocarlo, liberó una sustancia gaseosa invisible. Nadie notó que una partícula ingresó en su traje.</p>
+    <p><strong>Origen ancestral – Hace millones de años</strong><br>
+    Un meteorito de composición desconocida cayó en la Antártida. En su núcleo traía un virus antiguo que generó un ecosistema mutante bajo el hielo.</p>
 
-      <p><strong>Mutaciones y pruebas animales</strong><br>
-      Ratas, zorros polares y otras especies fueron introducidas para observación. Todos los sujetos presentaron:
-        <ul>
-          <li>Mutaciones físicas deformantes</li>
-          <li>Mejora de sentidos</li>
-          <li>Aumento de agresividad y resistencia extrema</li>
-        </ul>
-      Durante la fase de transformación, la sangre derramada de los animales era absorbida por ciertas plantas vinculadas al meteorito. Estas plantas, a los días, generaban cápsulas que daban vida a versiones alteradas y horribles de las especies originales.</p>
+    <p><strong>Año 2000 – El descubrimiento del ecosistema</strong><br>
+    Científicos de AethraTech descubren una cámara subterránea con flora alienígena. El Dr. Lennart Vasquez libera por accidente una sustancia viral al tocar el meteorito.</p>
 
-      <p><strong>Año 2012 – El experimento humano</strong><br>
-      La planta principal evolucionó al punto de ser capaz de imitar el ADN. El equipo decidió probar con genes humanos. Se usó el ADN de una mujer saludable: Dr. Yareli Novak (voluntaria desaparecida). La planta absorbió la sangre y, tras días de incubación, generó una forma humanoide: Clonación 01 - "EVA-X".
-      EVA-X mostró una forma humana deformada, sin conciencia, extremadamente agresiva y errática. Decidieron criogenizarla junto con el ecosistema entero al detectar un crecimiento exponencial del virus en el meteorito. La congelación a cero absoluto frenó temporalmente la evolución del ecosistema.
-      En el centro del pecho de EVA-X se descubrió un cristal romboide de 3.2 cm, con energía biocristalina capaz de mantenerla con vida incluso en estado criónico.</p>
+    <p><strong>Mutaciones y pruebas animales</strong><br>
+    Se observan mutaciones deformantes, agresividad extrema y regeneración. Plantas asociadas al meteorito absorben sangre y generan nuevas criaturas.</p>
 
-      <p><strong>Año 2016 – Abandono del proyecto</strong><br>
-      El laboratorio fue declarado zona de cuarentena total. La entrada fue sellada y toda la investigación clasificada como "Protocolo HADES". El caso fue cerrado.</p>
+    <p><strong>Año 2012 – El experimento humano</strong><br>
+    Usan ADN humano. Nace EVA-X: una criatura humanoide agresiva con un cristal biocristalino en su pecho. Es criogenizada junto con el ecosistema.</p>
 
-      <p><strong>Año 2025 – El error humano</strong><br>
-      12 de enero. Un grupo de turistas y exploradores extremos, liderados por un influencer llamado Eric Tanaka, localizó una entrada sellada en la Antártida. Forzaron la compuerta y entraron, liberando toxinas congeladas en el aire.
-      Dentro, encontraron el ecosistema mutado, ahora adaptado al frío polar. Un miembro del grupo se cortó accidentalmente y su sangre fue absorbida por una planta. Confundidos, activaron por error el panel de control, descongelando a EVA-X y a los animales mutados. Las alarmas sonaron, el caos comenzó. Fueron atacados por las criaturas, recibieron heridas y lograron escapar... sin cerrar correctamente la entrada.
-      Infectados y sin saberlo, regresaron al mundo.
-      <strong>Así comenzó la pandemia silenciosa. Así se liberó el virus VX-CEROUM.</strong></p>
-    </div>
+    <p><strong>Año 2016 – Abandono del proyecto</strong><br>
+    El lugar es sellado como zona de cuarentena. Protocolo HADES activado. Caso cerrado.</p>
+
+    <p><strong>Año 2025 – El error humano</strong><br>
+    Turistas liderados por Eric Tanaka abren la compuerta. EVA-X es descongelada. Criaturas escapan. El virus se libera. Comienza la pandemia silenciosa.</p>
   </section>
 
   <footer>
-    © 2025 Proyecto Celsius - Todos los derechos reservados
+    © 2025 Proyecto Celsius | Protocolo HADES
   </footer>
 </body>
 </html>
