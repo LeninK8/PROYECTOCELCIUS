@@ -73,10 +73,28 @@
       text-align: justify;
       margin-bottom: 1rem;
     }
+
+    /* Estilo para el botón de música dentro del título */
+    .music-btn {
+      cursor: pointer;
+      margin-left: 10px;
+      font-size: 1.5rem;
+      transition: all 0.3s ease;
+    }
+
+    .music-btn:hover {
+      color: #ffd700;
+      text-shadow: 0 0 10px #ffd700aa;
+    }
   </style>
 </head>
 <body>
-  <h1>📘 Proyecto Celsius: Antídoto Cero</h1>
+
+  <h1>
+    📘 Proyecto Celsius: Antídoto Cero
+    <span class="music-btn" onclick="toggleMusica()" title="Reproducir/Pausar música">🔊</span>
+  </h1>
+
   <a href="index.html" class="btn-back">🔙 Volver al inicio</a>
 
   <section>
@@ -214,5 +232,23 @@
   El grupo la recibió entre bromas y sonrisas. La mañana recién empezaba.</p>
 </section>
 
+  <!-- Música de fondo -->
+  <audio id="musicaFondo" loop>
+    <source src="https://drive.google.com/uc?export=download&id=1gH4zoFi92DERZfgxQtZ88D4KsUqmoAbs" type="audio/mpeg">
+    Tu navegador no soporta audio.
+  </audio>
+
+  <script>
+    const musica = document.getElementById('musicaFondo');
+    function toggleMusica() {
+      if (musica.paused) {
+        musica.play();
+      } else {
+        musica.pause();
+      }
+    }
+  </script>
+
 </body>
 </html>
+
