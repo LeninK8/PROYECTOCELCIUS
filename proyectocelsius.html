@@ -74,11 +74,17 @@
       margin-bottom: 1rem;
     }
 
-    /* Botón de música */
+    /* Estilo para el botón de música dentro del título */
     .music-btn {
       cursor: pointer;
       margin-left: 10px;
       font-size: 1.5rem;
+      transition: all 0.3s ease;
+    }
+
+    .music-btn:hover {
+      color: #ffd700;
+      text-shadow: 0 0 10px #ffd700aa;
     }
   </style>
 </head>
@@ -92,56 +98,156 @@
   <a href="index.html" class="btn-back">🔙 Volver al inicio</a>
 
   <section>
-    <h2>📖 Capítulo 1 – "Un martes cualquiera"</h2>
-    <!-- Aquí va todo tu contenido del capítulo (igual que antes) -->
-    <p><strong>📅 Fecha:</strong> 6 de febrero de 2025</p>
-    <p><strong>🕘 Hora inicial:</strong> 10:15 a.m.</p>
-    <p><strong>📍 Ubicación:</strong> Departamento, Lima – Perú</p>
-    <!-- ... resto de escenas ... -->
-  </section>
+  <h2>📖 Capítulo 1 – "Un martes cualquiera"</h2>
+  <p><strong>📅 Fecha:</strong> 6 de febrero de 2025</p>
+  <p><strong>🕘 Hora inicial:</strong> 10:15 a.m.</p>
+  <p><strong>📍 Ubicación:</strong> Departamento, Lima – Perú</p>
 
-  <!-- Música de fondo vía YouTube (oculto) -->
-  <div id="youtube-player" style="display:none;"></div>
+  <p><strong>🟦 ESCENA 1: Café, Croissants y Aburrimiento</strong><br>
+  La luz del sol entraba por la ventana del tercer piso. Sobre la mesa reposaban una taza de café caliente y un plato con tres croissants. La televisión se encendió sola con el noticiero matutino. Una reportera hablaba de un robo que había ocurrido un día antes en una casa del distrito.<br>
+  —Que no pasan nada bueno estos días por la televisión… —refunfuñó una voz femenina mientras lanzaba el control al mueble.<br>
+  Se levantó y fue al fregadero de la cocina para lavarse las manos. Mientras el agua corría, murmuró:<br>
+  —¿Dónde está la mantequilla? Recuerdo haberla visto… ah, aquí está.<br>
+  Abrió el refrigerador, la tomó y regresó a la mesa. Acomodó la silla, se sentó y comenzó a desayunar. La televisión seguía encendida. Con el ceño fruncido, masculló:<br>
+  —Qué aburrida mi vida… quiero salir a algún lugar.<br>
+  Terminó de embadurnar su croissant con mantequilla, tomó un sorbo de café y, fastidiada con un comercial de la tele, recogió los platos y la taza. Guardó la mantequilla en el refrigerador, miró el reloj y murmuró:<br>
+  —Son las 10:40… ya, saldré a caminar al parque.<br>
+  Se secó las manos, fue a su cuarto, escogió ropa y se cambió. Al revisar el celular, la pantalla mostró la hora: 10:47 a.m. y varias notificaciones.</p>
 
-  <script src="https://www.youtube.com/iframe_api"></script>
+  <p><strong>📱 Chat – Fernando</strong><br>
+  Fernando: Hola, ¿cómo estás? ¿Tienes planes hoy?</p>
+
+  <p><strong>📱 Grupo – Los Desvelados</strong><br>
+  Nick: Oigan chicos, ¿están despiertos?<br>
+  Elías: Claro, pues. No somos tan vagos.<br>
+  Lenin: Tú sí, Elías. Tú te duermes en clase.<br>
+  Nick: Jajajajajaja.<br>
+  Kira: Oigan, dejen de webear y hagan algo.<br>
+  Lenin: ¿Qué podríamos hacer? No hay nada, es feriado.<br>
+  Elías: Para ti todos los días son feriados.<br>
+  Nick: Es cierto.<br>
+  Lenin: -_-</p>
+
+  <p>Kira suspiró.<br>
+  —Qué miserable mi vida… solo una persona me escribe.<br>
+  Abrió el chat de Fernando y le contestó.</p>
+
+  <p><strong>📱 Chat – Fernando</strong><br>
+  Kira: No, no tengo nada. Estoy aburrida.<br>
+  Acordaron verse más tarde para cenar, aunque Kira no le dio mucha importancia. Esta historia no era solo sobre ella, sino de todos.<br>
+  Regresó al chat de Los Desvelados.</p>
+
+  <p><strong>📱 Grupo – Los Desvelados</strong><br>
+  Kira: Oigan, ¿ya vieron lo del paseo que habrá por expromo?<br>
+  Nick: ¿Por reencuentro, dices?<br>
+  Elías: ¡Asu! Acabamos la secundaria hace ya 2 años.<br>
+  Lenin: Ya, ¿pero a dónde es?<br>
+  Elías: Lee el grupo de expromo, oe. Ahí dice.<br>
+  Kira: A Canadá creo, y nos quedaríamos mes y medio. Así dijeron.<br>
+  Nick: Esos locos… está como mil dólares ida y vuelta.<br>
+  Lenin: ¿Asu, y todos los de la promo irán?<br>
+  Nick: Sí, ya confirmaron.<br>
+  Kira: En una semana sale el vuelo. Yo ya compré mi pasaje :P<br>
+  Elías: Yo igual… me duele mi bolsillo :c<br>
+  Nick: Gente pobre nomás le duele.<br>
+  Lenin: ¡Asu, ni enterado! Ni avisan, oe, se pasan.<br>
+  Elías: Pensé que sí habías leído.<br>
+  Kira: Este pendejo, oe… se pasa.<br>
+  Nick: Apura, compra el pasaje.<br>
+  Lenin: Yap :c. No avisan, miserables. ¿Alguien fuera de casa?<br>
+  Nick: Yo ando en la sanguchería frente al parque.<br>
+  Kira: Ah, justo estoy por el parque yo.<br>
+  Elías: ¡Asu! Espérenme, ahorita salgo.<br>
+  Lenin: Fuaa, a mí también espérenme. Ahí les caigo.</p>
+
+  <p><strong>🟪 ESCENA 2: Sanguchería y Risas</strong><br>
+  📍 11:05 a.m. – Parque frente a la sanguchería<br>
+  Elías terminó de cambiarse y salió de su casa. Apuró el paso mientras revisaba el celular.</p>
+
+  <p><strong>📱 Grupo – Los Desvelados</strong><br>
+  Lenin: ¡Llegueeee al parque! :P<br>
+  Elías: Yo ya casi.<br>
+  Nick: Ya me pedí un pan con jamonada.<br>
+  Kira: Apúrense.</p>
+
+  <p>Elías dobló la esquina y vio a Lenin entrar a la sanguchería. Cruzó la calle, pasó por el parque y finalmente los alcanzó.<br>
+  —Holas, ¿qué pidieron? —preguntó.<br>
+  —Yo nada, ya desayuné. Los veré tragar —dijo Kira con sorna.<br>
+  —Un pan con hamburguesa y una Inka, porfa —pidió Lenin a la mesera.<br>
+  Nick, con la boca llena, balbuceó algo incomprensible.<br>
+  —¿Tú qué comerás, Elías? —preguntó.<br>
+  —Mmm, no sé, ya veré.<br>
+  —Si no, comes parado —bromeó Lenin.<br>
+  —Quizá se va al parque a comer —añadió Kira, arrancando risas de todos.<br>
+  Al final, Elías pidió lo mismo que Nick. Mientras todos devoraban, Kira los miraba de reojo.<br>
+  —Comen como animales.<br>
+  —¿Como tú? —retrucó Elías.<br>
+  —¡Jajajajaja! —rió Nick.<br>
+  —Inútil, por eso nadie te quiere —le lanzó Kira.<br>
+  —Uy, Elías, ¿no le dirás nada? —pinchó Lenin.<br>
+  —Calla, oe —respondió entre risas.</p>
+
+  <p>De pronto, Lenin recordó:<br>
+  —Oigan, ¿no falta alguien?<br>
+  —¿Quién? —preguntó Nick.<br>
+  —Pues Mile… ha de haberse quedado dormida. Como siempre.<br>
+  —¡Aaaaaaa! —exclamaron todos al mismo tiempo.<br>
+  —Alguien llámela que venga —dijo Nick.<br>
+  —Ya, llamada al grupo —anunció Kira, tomando el celular.<br>
+  —Sí, así presumimos dónde estamos —apoyó Elías.</p>
+
+  <p><strong>📱 Llamada grupal – Los Desvelados</strong><br>
+  Nick: ¿Seguirá dormida?<br>
+  Lenin: No creo, ya son las 11 y cuarto.<br>
+  📱 Mile: ¿Qué pasó? Recién me levanto.<br>
+  Lenin: Se nota que no haces nada en todo el día.<br>
+  Mile: ¿Dónde están? Para ir, pues.<br>
+  Kira: Andamos en la sanguchería frente al parque, ven rápido.<br>
+  Nick: Rápido o comes sola.<br>
+  Mile: Ya voy, espérenme, pues.<br>
+  Elías: Ya está cerrando, ya.<br>
+  Mile: Qué malos son, ¿por qué no me despertaron?<br>
+  Lenin: Ven rápido.<br>
+  La llamada terminó y todos siguieron conversando mientras la esperaban.</p>
+
+  <p><strong>🟥 ESCENA 3: Mile se une al grupo</strong><br>
+  📍 11:35 a.m. – Camino hacia el parque<br>
+  Mile salió de su casa apurada, murmurando:<br>
+  —Estos no me avisan de nada… se pasan.<br>
+  Avanzó varias cuadras revisando notificaciones en su celular, hasta que encontró la sanguchería frente al parque. Entró con energía.<br>
+  —¡Holaaaa, ya llegué! —gritó.<br>
+  —Ya cerró, ya nos tenemos que ir —bromeó Elías.<br>
+  —Ya fuiste —añadió Nick.<br>
+  —No les hagas caso, están fregando —dijo Kira.<br>
+  —Ya casi es mediodía, ¿cómo puedes dormir hasta esta hora? —reprochó Lenin.<br>
+  —Era feriado, ¿ok? —se defendió Mile.<br>
+  Una mesera se acercó con una sonrisa.<br>
+  —Disculpe, señorita, ¿puedo tomar su pedido?<br>
+  —Mmm, ¿qué hay en el menú? —preguntó Mile, mirando la carta.<br>
+  —Pan con chicharrón, pan con pollo, hamburguesa —enumeró Lenin.<br>
+  —Un triple también hay —agregó Elías.<br>
+  —Pan con jamón y queso, huevo revuelto, tamal, humita… —completó Kira.<br>
+  —Mmm, ya… un pan con jamón y queso y un jugo, por favor.<br>
+  —Enseguida lo traemos —respondió la mesera.<br>
+  El grupo la recibió entre bromas y sonrisas. La mañana recién empezaba.</p>
+</section>
+
+  <!-- Música de fondo -->
+  <audio id="musicaFondo" loop>
+    <source src="https://drive.google.com/file/d/1gH4zoFi92DERZfgxQtZ88D4KsUqmoAbs/view?usp=sharing" type="audio/mpeg">
+    Tu navegador no soporta audio.
+  </audio>
+
   <script>
-    let player;
-    let reproduciendo = false;
-
-    function onYouTubeIframeAPIReady() {
-      player = new YT.Player('youtube-player', {
-        height: '0',
-        width: '0',
-        videoId: 'QCZZwZQ4qNs', // Tu video
-        playerVars: {
-          'autoplay': 0,
-          'loop': 1,
-          'playlist': 'QCZZwZQ4qNs',
-          'controls': 0,
-          'disablekb': 1,
-          'modestbranding': 1,
-          'rel': 0
-        },
-        events: {
-          'onReady': function(event) {
-            // listo para reproducir cuando se haga click
-          }
-        }
-      });
-    }
-
+    const musica = document.getElementById('musicaFondo');
     function toggleMusica() {
-      if (!player) return;
-      if (reproduciendo) {
-        player.pauseVideo();
+      if (musica.paused) {
+        musica.play();
       } else {
-        player.playVideo();
+        musica.pause();
       }
-      reproduciendo = !reproduciendo;
     }
   </script>
 
 </body>
 </html>
-
-
