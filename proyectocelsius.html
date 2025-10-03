@@ -74,61 +74,73 @@
       margin-bottom: 1rem;
     }
 
-    .musica-toggle {
+    /* Botón de música */
+    .music-btn {
       cursor: pointer;
       margin-left: 10px;
-      font-size: 1.2rem;
+      font-size: 1.5rem;
     }
   </style>
 </head>
 <body>
+
   <h1>
     📘 Proyecto Celsius: Antídoto Cero
-    <span class="musica-toggle" id="toggleIcon" onclick="toggleMusica()" title="Reproducir/Pausar música">🔊</span>
+    <span class="music-btn" onclick="toggleMusica()" title="Reproducir/Pausar música">🔊</span>
   </h1>
-
-  <!-- Música de fondo -->
-  <audio id="musicaFondo" loop>
-    <source src="https://drive.google.com/uc?export=download&id=1gH4zoFi92DERZfgxQtZ88D4KsUqmoAbs" type="audio/mpeg">
-    Tu navegador no soporta audio.
-  </audio>
 
   <a href="index.html" class="btn-back">🔙 Volver al inicio</a>
 
   <section>
     <h2>📖 Capítulo 1 – "Un martes cualquiera"</h2>
+    <!-- Aquí va todo tu contenido del capítulo (igual que antes) -->
     <p><strong>📅 Fecha:</strong> 6 de febrero de 2025</p>
     <p><strong>🕘 Hora inicial:</strong> 10:15 a.m.</p>
     <p><strong>📍 Ubicación:</strong> Departamento, Lima – Perú</p>
-
-    <p><strong>🟦 ESCENA 1: Café, Croissants y Aburrimiento</strong><br>
-    La luz del sol entraba por la ventana del tercer piso. Sobre la mesa reposaban una taza de café caliente y un plato con tres croissants. La televisión se encendió sola con el noticiero matutino. Una reportera hablaba de un robo que había ocurrido un día antes en una casa del distrito.<br>
-    —Que no pasan nada bueno estos días por la televisión… —refunfuñó una voz femenina mientras lanzaba el control al mueble.<br>
-    Se levantó y fue al fregadero de la cocina para lavarse las manos. Mientras el agua corría, murmuró:<br>
-    —¿Dónde está la mantequilla? Recuerdo haberla visto… ah, aquí está.<br>
-    Abrió el refrigerador, la tomó y regresó a la mesa. Acomodó la silla, se sentó y comenzó a desayunar. La televisión seguía encendida. Con el ceño fruncido, masculló:<br>
-    —Qué aburrida mi vida… quiero salir a algún lugar.<br>
-    Terminó de embadurnar su croissant con mantequilla, tomó un sorbo de café y, fastidiada con un comercial de la tele, recogió los platos y la taza. Guardó la mantequilla en el refrigerador, miró el reloj y murmuró:<br>
-    —Son las 10:40… ya, saldré a caminar al parque.<br>
-    Se secó las manos, fue a su cuarto, escogió ropa y se cambió. Al revisar el celular, la pantalla mostró la hora: 10:47 a.m. y varias notificaciones.</p>
-
-    <!-- ... resto del contenido del capítulo ... -->
+    <!-- ... resto de escenas ... -->
   </section>
 
+  <!-- Música de fondo vía YouTube (oculto) -->
+  <div id="youtube-player" style="display:none;"></div>
+
+  <script src="https://www.youtube.com/iframe_api"></script>
   <script>
-    const musica = document.getElementById('musicaFondo');
-    const toggleIcon = document.getElementById('toggleIcon');
+    let player;
+    let reproduciendo = false;
+
+    function onYouTubeIframeAPIReady() {
+      player = new YT.Player('youtube-player', {
+        height: '0',
+        width: '0',
+        videoId: 'QCZZwZQ4qNs', // Tu video
+        playerVars: {
+          'autoplay': 0,
+          'loop': 1,
+          'playlist': 'QCZZwZQ4qNs',
+          'controls': 0,
+          'disablekb': 1,
+          'modestbranding': 1,
+          'rel': 0
+        },
+        events: {
+          'onReady': function(event) {
+            // listo para reproducir cuando se haga click
+          }
+        }
+      });
+    }
 
     function toggleMusica() {
-      if (musica.paused) {
-        musica.play();
-        toggleIcon.textContent = "🔇"; // cambia a icono de silencio
+      if (!player) return;
+      if (reproduciendo) {
+        player.pauseVideo();
       } else {
-        musica.pause();
-        toggleIcon.textContent = "🔊"; // cambia a icono de sonido
+        player.playVideo();
       }
+      reproduciendo = !reproduciendo;
     }
   </script>
+
 </body>
 </html>
 
