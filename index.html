@@ -3,178 +3,921 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>🌍 Proyecto Celsius: Antídoto Cero</title>
+  <title>Proyecto Celsius: Antídoto Cero</title>
   <style>
-    /* Reset general */
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
+    @import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@300;400;600;700&family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&display=swap');
+
+    :root {
+      --cyan: #00e5ff;
+      --red: #ff1744;
+      --gold: #ffd700;
+      --dark: #050a0f;
+      --glass: rgba(0, 229, 255, 0.05);
     }
 
-    /* Tipografía y fondo */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
     body {
-      font-family: 'Segoe UI', sans-serif;
-      background-color: #0a0a0a;
-      color: #e0e0e0;
-      line-height: 1.6;
+      font-family: 'Rajdhani', sans-serif;
+      background: var(--dark);
+      color: #c9d8e8;
+      overflow-x: hidden;
     }
 
-    /* Header estilizado */
-    header {
-      background-image: url('https://images.unsplash.com/photo-1618221735685-2b6d1222bd5a?auto=format&fit=crop&w=1500&q=80');
-      background-size: cover;
-      background-position: center;
+    /* ── CANVAS DE PARTÍCULAS ── */
+    #particles {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ── HERO ── */
+    .hero {
+      position: relative;
       height: 100vh;
       display: flex;
       align-items: center;
       justify-content: center;
       text-align: center;
+      overflow: hidden;
+    }
+
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse at 50% 0%, rgba(0,229,255,0.08) 0%, transparent 60%),
+        radial-gradient(ellipse at 80% 80%, rgba(255,23,68,0.06) 0%, transparent 50%),
+        url('https://images.unsplash.com/photo-1518531933037-91b2f5f229cc?auto=format&fit=crop&w=1600&q=80') center/cover no-repeat;
+    }
+
+    .hero-bg::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to bottom, rgba(5,10,15,0.5) 0%, rgba(5,10,15,0.85) 60%, var(--dark) 100%);
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      padding: 2rem;
+    }
+
+    .tag-line {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.75rem;
+      color: var(--cyan);
+      letter-spacing: 6px;
+      text-transform: uppercase;
+      margin-bottom: 1.5rem;
+      opacity: 0;
+      animation: fadeUp 0.8s ease 0.3s forwards;
+    }
+
+    .hero h1 {
+      font-family: 'Orbitron', sans-serif;
+      font-size: clamp(2.8rem, 8vw, 6rem);
+      font-weight: 900;
+      color: #fff;
+      line-height: 1;
+      letter-spacing: -1px;
+      opacity: 0;
+      animation: fadeUp 0.8s ease 0.6s forwards;
+    }
+
+    .hero h1 span {
+      color: var(--cyan);
+      text-shadow: 0 0 40px rgba(0,229,255,0.4);
+    }
+
+    .hero h2 {
+      font-family: 'Orbitron', sans-serif;
+      font-size: clamp(1.2rem, 3vw, 2.2rem);
+      font-weight: 400;
+      color: var(--red);
+      letter-spacing: 4px;
+      margin-top: 0.5rem;
+      text-shadow: 0 0 30px rgba(255,23,68,0.35);
+      opacity: 0;
+      animation: fadeUp 0.8s ease 0.9s forwards;
+    }
+
+    .hero-divider {
+      width: 120px;
+      height: 1px;
+      background: linear-gradient(to right, transparent, var(--cyan), transparent);
+      margin: 2rem auto;
+      opacity: 0;
+      animation: fadeUp 0.8s ease 1.1s forwards;
+    }
+
+    .hero-sub {
+      font-size: 1.1rem;
+      color: #8aafc4;
+      letter-spacing: 2px;
+      font-style: italic;
+      opacity: 0;
+      animation: fadeUp 0.8s ease 1.3s forwards;
+    }
+
+    .hero-badges {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: 2rem;
+      opacity: 0;
+      animation: fadeUp 0.8s ease 1.5s forwards;
+    }
+
+    .badge {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 3px;
+      padding: 0.4rem 1rem;
+      border: 1px solid rgba(0,229,255,0.25);
+      color: rgba(0,229,255,0.6);
+      border-radius: 2px;
+    }
+
+    .hero-cta {
+      margin-top: 3rem;
+      opacity: 0;
+      animation: fadeUp 0.8s ease 1.7s forwards;
+    }
+
+    .btn-primary {
+      display: inline-block;
+      padding: 1rem 2.5rem;
+      background: transparent;
+      border: 1.5px solid var(--cyan);
+      color: var(--cyan);
+      font-family: 'Orbitron', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-decoration: none;
+      text-transform: uppercase;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn-primary::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: var(--cyan);
+      transform: translateX(-101%);
+      transition: transform 0.3s ease;
+      z-index: -1;
+    }
+
+    .btn-primary:hover {
+      color: #000;
+    }
+
+    .btn-primary:hover::before {
+      transform: translateX(0);
+    }
+
+    .btn-danger {
+      display: inline-block;
+      padding: 1rem 2.5rem;
+      background: transparent;
+      border: 1.5px solid var(--red);
+      color: var(--red);
+      font-family: 'Orbitron', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-decoration: none;
+      text-transform: uppercase;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+      margin-left: 1rem;
+    }
+
+    .btn-danger::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: var(--red);
+      transform: translateX(-101%);
+      transition: transform 0.3s ease;
+      z-index: -1;
+    }
+
+    .btn-danger:hover { color: #fff; }
+    .btn-danger:hover::before { transform: translateX(0); }
+
+    /* ── SCROLL INDICATOR ── */
+    .scroll-indicator {
+      position: absolute;
+      bottom: 2rem;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 2;
+      opacity: 0;
+      animation: fadeIn 1s ease 2.5s forwards;
+    }
+
+    .scroll-indicator span {
+      display: block;
+      width: 20px;
+      height: 20px;
+      border-right: 1.5px solid rgba(0,229,255,0.4);
+      border-bottom: 1.5px solid rgba(0,229,255,0.4);
+      transform: rotate(45deg);
+      margin: -8px auto;
+      animation: scrollPulse 1.5s infinite;
+    }
+
+    .scroll-indicator span:nth-child(2) { animation-delay: 0.15s; opacity: 0.6; }
+    .scroll-indicator span:nth-child(3) { animation-delay: 0.3s; opacity: 0.3; }
+
+    @keyframes scrollPulse {
+      0%, 100% { opacity: 0.15; }
+      50% { opacity: 1; }
+    }
+
+    /* ── SECCIONES GENERALES ── */
+    section {
+      position: relative;
+      z-index: 1;
+      padding: 6rem 2rem;
+    }
+
+    .section-inner {
+      max-width: 960px;
+      margin: 0 auto;
+    }
+
+    .section-label {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.7rem;
+      letter-spacing: 5px;
+      color: var(--cyan);
+      text-transform: uppercase;
+      margin-bottom: 0.75rem;
+      display: block;
+    }
+
+    .section-title {
+      font-family: 'Orbitron', sans-serif;
+      font-size: clamp(1.6rem, 4vw, 2.4rem);
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 3rem;
+    }
+
+    .section-title em {
+      color: var(--red);
+      font-style: normal;
+    }
+
+    /* ── ALERTA PÚBLICA ── */
+    .alert-bar {
+      background: rgba(255,23,68,0.08);
+      border: 1px solid rgba(255,23,68,0.25);
+      padding: 1.2rem 2rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .alert-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--red);
+      flex-shrink: 0;
+      animation: blink 1.2s infinite;
+    }
+
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.15; }
+    }
+
+    .alert-bar p {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.8rem;
+      color: rgba(255,100,100,0.85);
+      letter-spacing: 1px;
+    }
+
+    /* ── TIMELINE ── */
+    .timeline {
+      position: relative;
+      padding-left: 2rem;
+    }
+
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 1px;
+      background: linear-gradient(to bottom, transparent, var(--cyan), var(--red), transparent);
+    }
+
+    .timeline-item {
+      position: relative;
+      padding: 0 0 3.5rem 2.5rem;
+      opacity: 0;
+      transform: translateX(-20px);
+      transition: all 0.6s ease;
+    }
+
+    .timeline-item.visible {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    .timeline-item::before {
+      content: '';
+      position: absolute;
+      left: -5px;
+      top: 6px;
+      width: 11px;
+      height: 11px;
+      border-radius: 50%;
+      background: var(--dark);
+      border: 2px solid var(--cyan);
+    }
+
+    .timeline-item.danger::before {
+      border-color: var(--red);
+    }
+
+    .timeline-year {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 4px;
+      color: var(--cyan);
+      margin-bottom: 0.4rem;
+    }
+
+    .timeline-item.danger .timeline-year {
+      color: var(--red);
+    }
+
+    .timeline-heading {
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: #e8f0f8;
+      margin-bottom: 0.5rem;
+    }
+
+    .timeline-text {
+      font-size: 1rem;
+      color: #7a9bb5;
+      line-height: 1.75;
+    }
+
+    /* ── STATS ── */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 1.5px;
+      background: rgba(0,229,255,0.08);
+      border: 1px solid rgba(0,229,255,0.1);
+      margin: 4rem 0;
+    }
+
+    .stat {
+      background: var(--dark);
+      padding: 2rem 1.5rem;
+      text-align: center;
+    }
+
+    .stat-num {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 2.2rem;
+      font-weight: 900;
+      color: var(--cyan);
+      display: block;
+    }
+
+    .stat-label {
+      font-size: 0.75rem;
+      letter-spacing: 2px;
+      color: #4a6880;
+      text-transform: uppercase;
+      margin-top: 0.3rem;
+    }
+
+    /* ── PERSONAJES ── */
+    .characters-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .character-card {
+      border: 1px solid rgba(0,229,255,0.1);
+      padding: 2rem 1.5rem;
+      position: relative;
+      transition: border-color 0.3s ease, transform 0.3s ease;
+      background: rgba(0,229,255,0.02);
+    }
+
+    .character-card:hover {
+      border-color: rgba(0,229,255,0.35);
+      transform: translateY(-4px);
+    }
+
+    .character-card.red-card {
+      border-color: rgba(255,23,68,0.1);
+      background: rgba(255,23,68,0.02);
+    }
+
+    .character-card.red-card:hover {
+      border-color: rgba(255,23,68,0.35);
+    }
+
+    .char-role {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.62rem;
+      letter-spacing: 4px;
+      color: var(--cyan);
+      text-transform: uppercase;
+      margin-bottom: 0.6rem;
+    }
+
+    .red-card .char-role { color: var(--red); }
+
+    .char-name {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 0.75rem;
+    }
+
+    .char-desc {
+      font-size: 0.95rem;
+      color: #5a7a94;
+      line-height: 1.65;
+    }
+
+    .char-ability {
+      margin-top: 1rem;
+      font-size: 0.8rem;
+      color: rgba(0,229,255,0.5);
+      border-top: 1px solid rgba(0,229,255,0.08);
+      padding-top: 0.75rem;
+      font-family: 'Share Tech Mono', monospace;
+    }
+
+    .red-card .char-ability { color: rgba(255,100,100,0.5); }
+
+    /* ── VIRUS INFO ── */
+    .virus-block {
+      background: rgba(255,23,68,0.04);
+      border: 1px solid rgba(255,23,68,0.15);
+      padding: 2.5rem;
       position: relative;
     }
 
-    .overlay {
-      background-color: rgba(0, 0, 0, 0.75);
-      padding: 2rem;
-      border-radius: 12px;
-      border: 2px solid #00f0ff77;
-      backdrop-filter: blur(6px);
+    .virus-block::before {
+      content: '⚠ CLASIFICADO';
+      position: absolute;
+      top: -0.6rem;
+      left: 1.5rem;
+      background: var(--dark);
+      padding: 0 0.75rem;
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 4px;
+      color: var(--red);
     }
 
-    header h1 {
-      font-size: 3.5rem;
-      color: #00d9ff;
-      letter-spacing: 2px;
-    }
-
-    header h2 {
-      font-size: 2rem;
-      color: #ff0040;
-      margin-top: 0.5rem;
-    }
-
-    .sub {
-      font-style: italic;
-      margin-top: 1rem;
-      color: #ccc;
-    }
-
-    /* Botón */
-    .btn {
-      margin-top: 2rem;
-      background-color: #ffd700;
-      color: #000;
-      padding: 0.8rem 1.5rem;
-      border: none;
-      border-radius: 30px;
-      text-decoration: none;
-      font-weight: bold;
-      transition: all 0.3s ease;
-      box-shadow: 0 0 12px #ffd70055;
-      display: inline-block;
-    }
-
-    .btn:hover {
-      background-color: #fff;
-      color: #111;
-      box-shadow: 0 0 20px #ffd700aa;
-    }
-
-    /* Secciones */
-    section {
-      padding: 4rem 2rem;
-      background-color: #111;
-      text-align: center;
-    }
-
-    section h2 {
-      color: #00c3ff;
-      font-size: 2rem;
-      margin-bottom: 1rem;
-    }
-
-    section p, section ul {
-      max-width: 900px;
-      margin: auto;
-      font-size: 1.05rem;
-      color: #ccc;
-      text-align: justify;
-      margin-bottom: 1rem;
-    }
-
-    /* Footer */
-    footer {
-      background-color: #0d0d0d;
-      text-align: center;
-      padding: 1rem;
-      font-size: 0.9rem;
-      color: #777;
-    }
-        .btn-acceso {
-      display: inline-block;
-      margin-top: 2.5rem;
-      padding: 0.9rem 2rem;
-      background: linear-gradient(145deg, #111, #1a1a1a);
-      border: 1px solid #00ffcc88;
-      color: #00ffee;
-      font-weight: bold;
-      border-radius: 40px;
-      text-decoration: none;
-      letter-spacing: 1px;
+    .virus-block p {
       font-size: 1rem;
-      box-shadow: 0 0 10px #00ffee44;
-      transition: 0.3s ease;
+      color: #7a9bb5;
+      line-height: 1.85;
+      margin-bottom: 1rem;
     }
 
-    .btn-acceso:hover {
-      background-color: #00ffee;
-      color: #000;
-      box-shadow: 0 0 20px #00ffeecc;
+    .virus-block p:last-child { margin-bottom: 0; }
+
+    /* ── PROTOCOLO ── */
+    .protocol-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1.5rem;
+      margin-top: 2rem;
+    }
+
+    .protocol-item {
+      padding: 1.5rem;
+      border-left: 2px solid rgba(0,229,255,0.2);
+    }
+
+    .protocol-code {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 4px;
+      color: var(--cyan);
+      margin-bottom: 0.5rem;
+    }
+
+    .protocol-title {
+      font-weight: 600;
+      font-size: 1rem;
+      color: #d0e0ef;
+      margin-bottom: 0.4rem;
+    }
+
+    .protocol-desc {
+      font-size: 0.9rem;
+      color: #4a6880;
+      line-height: 1.6;
+    }
+
+    /* ── SEPARADORES ── */
+    .divider {
+      width: 100%;
+      height: 1px;
+      background: linear-gradient(to right, transparent, rgba(0,229,255,0.15), transparent);
+      margin: 0;
+    }
+
+    /* ── CTA SECTION ── */
+    .cta-section {
+      text-align: center;
+      background:
+        radial-gradient(ellipse at 50% 0%, rgba(0,229,255,0.07) 0%, transparent 60%),
+        var(--dark);
+      border-top: 1px solid rgba(0,229,255,0.08);
+    }
+
+    .cta-section p {
+      max-width: 600px;
+      margin: 0 auto 2.5rem;
+      font-size: 1.05rem;
+      color: #5a7a94;
+      line-height: 1.75;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      background: #030608;
+      border-top: 1px solid rgba(0,229,255,0.06);
+      padding: 2rem;
+      text-align: center;
+    }
+
+    .footer-logo {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 0.8rem;
+      letter-spacing: 4px;
+      color: rgba(0,229,255,0.3);
+      margin-bottom: 0.5rem;
+    }
+
+    .footer-sub {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 2px;
+      color: #1e3040;
+    }
+
+    /* ── ANIMACIONES ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+
+    /* ── SCANLINE OVERLAY ── */
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 2px,
+        rgba(0,0,0,0.03) 2px,
+        rgba(0,0,0,0.03) 4px
+      );
+      pointer-events: none;
+      z-index: 9999;
+    }
+
+    /* MOBILE */
+    @media (max-width: 600px) {
+      .btn-danger { margin-left: 0; margin-top: 1rem; }
+      .hero-cta { display: flex; flex-direction: column; align-items: center; gap: 0.5rem; }
     }
   </style>
 </head>
 <body>
-  <header>
-    <div class="overlay">
-      <h1>🌌 Proyecto Celsius</h1>
-      <h2>Antídoto Cero</h2>
-      <p class="sub">Una misión contra el hielo, el tiempo... y la extinción.</p>
+
+<!-- CANVAS PARTÍCULAS -->
+<canvas id="particles"></canvas>
+
+<!-- ═══════════════════════════════════════ HERO ═══════════════════════════════════════ -->
+<header class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-content">
+    <p class="tag-line">▸ Protocolo HADES — Nivel Omega ▸ VX-CEROUM Activo</p>
+    <h1>PROYECTO <span>CELSIUS</span></h1>
+    <h2>◈ ANTÍDOTO CERO ◈</h2>
+    <div class="hero-divider"></div>
+    <p class="hero-sub">Una misión contra el hielo, el tiempo... y la extinción.</p>
+    <div class="hero-badges">
+      <span class="badge">📍 Antártida — Sector Λ</span>
+      <span class="badge">🧬 VX-CEROUM Pandemia</span>
+      <span class="badge">🏢 AethraTech Corp</span>
     </div>
-  </header>
+    <div class="hero-cta">
+      <a href="archivo001.html" class="btn-primary">Entrar al archivo</a>
+      <a href="#historia" class="btn-danger">Leer el expediente</a>
+    </div>
+  </div>
+  <div class="scroll-indicator">
+    <span></span><span></span><span></span>
+  </div>
+</header>
 
-  <section>
-    <h2>📁 Acceso al Archivo</h2>
-    <p>Explora los documentos confidenciales del caso VX-CEROUM.</p>
-    <a href="archivo001.html" class="btn">Entrar al archivo</a>
-  </section>
+<!-- ALERTA -->
+<div class="alert-bar">
+  <div class="alert-dot"></div>
+  <p>
+    ALERTA ACTIVA — SISTEMA HADES · Cuarentena en vigor desde 2025.11.14 · Vectores biológicos no contenidos · Acceso restringido a personal autorizado nivel Ω
+  </p>
+</div>
 
-  <section id="historia">
-    <h2>📖 HISTORIA DEL VIRUS VX-CEROUM</h2>
+<!-- ═══════════════════════════════════════ STATS ═══════════════════════════════════════ -->
+<section style="padding: 4rem 2rem;">
+  <div class="stats-grid">
+    <div class="stat"><span class="stat-num">2000</span><span class="stat-label">Año del descubrimiento</span></div>
+    <div class="stat"><span class="stat-num">16</span><span class="stat-label">Años de silencio</span></div>
+    <div class="stat"><span class="stat-num">4</span><span class="stat-label">Protagonistas</span></div>
+    <div class="stat"><span class="stat-num">0</span><span class="stat-label">Antídotos confirmados</span></div>
+  </div>
+</section>
 
-    <p><strong>Origen ancestral – Hace millones de años</strong><br>
-    Un meteorito de composición desconocida cayó en la Antártida. En su núcleo traía un virus antiguo, encapsulado en cristales biológicos, que lentamente dio forma a un ecosistema mutante bajo el hielo.</p>
+<div class="divider"></div>
 
-    <p><strong>Año 2000 – El descubrimiento del ecosistema</strong><br>
-    Científicos de AethraTech perforaron el hielo antártico y hallaron una cámara subterránea donde sobrevivían formas de vida nunca vistas: flora luminiscente, raíces cristalinas y esporas en suspensión. Durante la inspección, el Dr. Lennart Vásquez activó sin querer una fractura en el meteorito, liberando una sustancia viral.</p>
+<!-- ═══════════════════════════════════════ HISTORIA ═══════════════════════════════════════ -->
+<section id="historia">
+  <div class="section-inner">
+    <span class="section-label">▸ Expediente histórico</span>
+    <h2 class="section-title">Origen del <em>Caos</em></h2>
 
-    <p><strong>Mutaciones y pruebas animales</strong><br>
-    Los primeros ensayos en animales revelaron resultados aterradores: deformaciones óseas, regeneración anómala, incremento de agresividad y conductas depredadoras extremas. Algunas plantas asociadas al meteorito mostraban capacidad de absorber sangre, transformando la biomasa en nuevas criaturas híbridas.</p>
+    <div class="timeline">
 
-    <p><strong>Año 2016 – Abandono del proyecto</strong><br>
-    El avance descontrolado obligó a cerrar la instalación. La zona fue declarada en cuarentena bajo el Protocolo HADES, y toda la información se clasificó. Oficialmente, el proyecto fue archivado como un fracaso científico.</p>
+      <div class="timeline-item">
+        <p class="timeline-year">▸ ORIGEN — HACE MILLONES DE AÑOS</p>
+        <h3 class="timeline-heading">El meteorito del fin del mundo</h3>
+        <p class="timeline-text">
+          Un cuerpo celeste de composición desconocida impactó en la Antártida durante una era sin testigos. En su núcleo dormían cristales biológicos de origen extraterrestre: cápsulas de un virus antiguo, anterior a cualquier forma de vida conocida en la Tierra. Con el paso de los eones, el calor geotérmico comenzó a disolver lentamente esas cápsulas, y el virus —sin nombre aún— empezó a contaminar las aguas subterráneas. Debajo del hielo, en la oscuridad total, nació un ecosistema aberrante: flora luminiscente de color índigo, raíces cristalinas que crecían a contrapelo de la gravedad, esporas que flotaban en suspensión como si el tiempo no existiera para ellas.
+        </p>
+      </div>
 
-    <p><strong>Año 2025 – El error humano</strong><br>
-    Un grupo de turistas liderados por Eric Tanaka, ignorando las advertencias y atraídos por rumores, forzó la entrada a la instalación sellada. Al abrir la compuerta, el ecosistema mutado se liberó. Criaturas cristalinas escaparon hacia la superficie, y el virus VX-CEROUM comenzó a propagarse. Así inició la pandemia silenciosa que alteraría el destino del planeta.</p>
+      <div class="timeline-item">
+        <p class="timeline-year">▸ AÑO 2000 — EL DESCUBRIMIENTO</p>
+        <h3 class="timeline-heading">La perforación del Dr. Vásquez</h3>
+        <p class="timeline-text">
+          Científicos de AethraTech Corporation, liderados por el Dr. Lennart Vásquez, alcanzaron una cámara subterránea a 3.800 metros de profundidad bajo el hielo. Lo que encontraron cambió todo: una bóveda natural iluminada por su propia flora, criaturas de morfología sin clasificar, y en el centro, el meteorito original intacto. Durante la primera inspección, Vásquez presionó por accidente una fractura latente en la roca. Un líquido negro —denso como brea y brillante como aceite iridiscente— fluyó hacia afuera. El equipo no comprendió lo que acababa de hacer. El virus VX-CEROUM fue liberado.
+        </p>
+      </div>
 
-    <a href="proyectocelsius.html" class="btn-acceso">🧪 Proyecto Celsius: Antídoto Cero</a>
+      <div class="timeline-item">
+        <p class="timeline-year">▸ 2001 – 2015 — FASE DE PRUEBAS</p>
+        <h3 class="timeline-heading">Lo que AethraTech nunca publicó</h3>
+        <p class="timeline-text">
+          Durante quince años, AethraTech condujo experimentos en secreto absoluto. Los primeros ensayos en animales revelaron mutaciones óseas irreversibles, regeneración anómala de tejidos y un aumento exponencial de agresividad. Las plantas del ecosistema antártico absorbían sangre y la convertían en biomasa viva: nuevas criaturas, híbridas entre animal y mineral, surgían de los cadáveres. Ningún resultado fue reportado a ningún gobierno. Todo quedó archivado bajo el nombre de código HADES, clasificado como "fracaso experimental". Era mentira.
+        </p>
+      </div>
 
-  </section>
+      <div class="timeline-item danger">
+        <p class="timeline-year">▸ AÑO 2016 — ABANDONO</p>
+        <h3 class="timeline-heading">Protocolo HADES activado</h3>
+        <p class="timeline-text">
+          La mutación del ecosistema superó todos los modelos de contención. Las criaturas comenzaron a adaptarse a los sistemas de seguridad. El directorio de AethraTech tomó una decisión unilateral: sellar la instalación, eliminar registros públicos y declarar la zona inhabitable por "inestabilidad geológica". Oficialmente, el proyecto fue archivado como fracaso científico. En realidad, abandonaron a catorce investigadores que no pudieron salir a tiempo. Sus señales de auxilio fueron silenciadas automáticamente por el sistema de cuarentena remota.
+        </p>
+      </div>
 
-  <footer>
-    © 2025 Proyecto Celsius | Protocolo HADES
-  </footer>
+      <div class="timeline-item danger">
+        <p class="timeline-year">▸ AÑO 2025 — EL ERROR HUMANO</p>
+        <h3 class="timeline-heading">La brecha que lo cambió todo</h3>
+        <p class="timeline-text">
+          Eric Tanaka, un turista de aventura con influencia en redes sociales, lideró un grupo de siete personas hacia la zona sellada atraído por rumores en foros anónimos. Forzaron la compuerta exterior en cuestión de minutos. En el interior, encontraron algo que no debería existir: el ecosistema había crecido, se había adaptado, y estaba esperando. Las criaturas cristalinas escaparon en masa hacia la superficie polar. El viento antártico hizo el resto. El virus VX-CEROUM comenzó a propagarse en silencio, sin síntomas visibles durante las primeras tres semanas. Para cuando el mundo lo supo, ya era demasiado tarde.
+        </p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ═══════════════════════════════════════ VIRUS ═══════════════════════════════════════ -->
+<section style="background: rgba(255,23,68,0.02);">
+  <div class="section-inner">
+    <span class="section-label">▸ Clasificación biológica</span>
+    <h2 class="section-title">El Virus <em>VX-CEROUM</em></h2>
+    <div class="virus-block">
+      <p>
+        El VX-CEROUM no opera como ningún patógeno conocido. No destruye las células del huésped: las <strong style="color:#e8f0f8;">transforma</strong>. En las primeras fases de infección, el virus reconfigura silenciosamente el ADN mitocondrial, reduciendo el metabolismo y adaptando el organismo a temperaturas extremas. El huésped siente euforia, resistencia física inusual, visión nocturna mejorada. Muchos infectados no buscan ayuda porque, en las primeras semanas, se sienten invencibles.
+      </p>
+      <p>
+        En la fase intermedia, el virus comienza a cristalizar tejidos blandos. Las articulaciones adquieren rigidez mineral. La piel desarrolla micro-fracturas que brillan tenuemente en la oscuridad —una bioluminiscencia característica del ecosistema antártico de origen. En esta etapa, el portador es altamente contagioso a través del aliento y el contacto dérmico.
+      </p>
+      <p>
+        La fase terminal no ha podido ser estudiada en condiciones controladas. Los únicos registros provienen de cámaras de la instalación sellada. Los sujetos de fase terminal dejan de reconocerse como humanos. Integran el ecosistema. Se convierten en parte de él.
+      </p>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ═══════════════════════════════════════ PERSONAJES ═══════════════════════════════════════ -->
+<section>
+  <div class="section-inner">
+    <span class="section-label">▸ Unidad de respuesta</span>
+    <h2 class="section-title">Los <em>Cuatro</em></h2>
+    <div class="characters-grid">
+
+      <div class="character-card">
+        <p class="char-role">Co-protagonista · I</p>
+        <h3 class="char-name">Kira</h3>
+        <p class="char-desc">Analista de biología molecular. Fue la primera en teorizar que el VX-CEROUM no es un patógeno invasor sino un sistema de terraformación a escala celular. Su intuición científica es tan precisa que a veces asusta a sus propios aliados.</p>
+        <p class="char-ability">▸ Lectura genómica acelerada</p>
+      </div>
+
+      <div class="character-card">
+        <p class="char-role">Co-protagonista · II</p>
+        <h3 class="char-name">Nick</h3>
+        <p class="char-desc">Ex-operativo de extracción en zonas de conflicto. Lleva la cicatriz de una misión fallida en Siberia que nunca explica del todo. Dentro del equipo es el primero en actuar y el último en rendirse, pero carga con algo que nadie sabe todavía.</p>
+        <p class="char-ability">▸ Resistencia física aumentada</p>
+      </div>
+
+      <div class="character-card">
+        <p class="char-role">Co-protagonista · III</p>
+        <h3 class="char-name">Elías</h3>
+        <p class="char-desc">Ingeniero de sistemas criogénicos. Diseñó buena parte de la infraestructura original de la instalación antártica antes de que AethraTech lo despidiera sin explicaciones en 2017. Regresar a ese lugar es, para él, ajustar cuentas con su propio pasado.</p>
+        <p class="char-ability">▸ Síntesis tecnológica en campo</p>
+      </div>
+
+      <div class="character-card">
+        <p class="char-role">Co-protagonista · IV</p>
+        <h3 class="char-name">Lenin</h3>
+        <p class="char-desc">Documentalista y observador. No dispara armas, no tiene títulos científicos. Pero registra todo, recuerda todo y conecta los puntos que los demás no ven. En una misión sin testigos, él es el testigo. Y a veces eso pesa más que cualquier arma.</p>
+        <p class="char-ability">▸ Memoria narrativa expandida</p>
+      </div>
+
+      <div class="character-card red-card">
+        <p class="char-role">Subprotagonista</p>
+        <h3 class="char-name">Mile</h3>
+        <p class="char-desc">Médica de campo. Fría, precisa, sin margen para el error emocional. Pero debajo de esa armadura hay algo que el virus despertó en ella durante la primera exposición: una conexión que no sabe explicar con el ecosistema antártico.</p>
+        <p class="char-ability">▸ Inmunidad parcial no comprendida</p>
+      </div>
+
+      <div class="character-card red-card">
+        <p class="char-role">Subprotagonista</p>
+        <h3 class="char-name">Alessia</h3>
+        <p class="char-desc">Infiltrada dentro de AethraTech durante tres años. Conoce secretos de la corporación que ningún otro miembro del equipo conoce. Su lealtad es real, pero su método para conseguir información deja preguntas abiertas que nadie se atreve a hacer en voz alta.</p>
+        <p class="char-ability">▸ Manipulación de información corporativa</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ═══════════════════════════════════════ PROTOCOLO HADES ═══════════════════════════════════════ -->
+<section>
+  <div class="section-inner">
+    <span class="section-label">▸ Directiva interna AethraTech</span>
+    <h2 class="section-title">Protocolo <em>HADES</em></h2>
+    <p style="color:#5a7a94; font-size:1rem; line-height:1.8; margin-bottom:2rem;">
+      El Protocolo HADES es el conjunto de directivas secretas que AethraTech activó en 2016 para contener —y ocultar— el desastre del VX-CEROUM. No fue diseñado para salvar vidas. Fue diseñado para salvar la reputación de la corporación.
+    </p>
+    <div class="protocol-grid">
+      <div class="protocol-item">
+        <p class="protocol-code">HADES-01</p>
+        <p class="protocol-title">Sellado total</p>
+        <p class="protocol-desc">Cierre permanente de la instalación. Eliminación de accesos físicos y digitales. Cualquier señal proveniente del interior debe ser ignorada automáticamente.</p>
+      </div>
+      <div class="protocol-item">
+        <p class="protocol-code">HADES-02</p>
+        <p class="protocol-title">Silencio de información</p>
+        <p class="protocol-desc">Todos los datos de investigación pasan a ser propiedad clasificada. Los investigadores supervivientes firman acuerdos de confidencialidad bajo amenaza implícita.</p>
+      </div>
+      <div class="protocol-item">
+        <p class="protocol-code">HADES-03</p>
+        <p class="protocol-title">Narrativa alternativa</p>
+        <p class="protocol-desc">Difusión de un relato oficial: "fracaso por inestabilidad geológica". Ninguna mención a criaturas, virus ni experimentos. Los registros públicos son alterados.</p>
+      </div>
+      <div class="protocol-item">
+        <p class="protocol-code">HADES-04</p>
+        <p class="protocol-title">Vigilancia perimetral</p>
+        <p class="protocol-desc">Satélites de monitoreo continuo sobre la zona. Cualquier acceso no autorizado activa un equipo de respuesta privada. La zona no debe ser investigada. Nunca.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ═══════════════════════════════════════ CTA ═══════════════════════════════════════ -->
+<section class="cta-section">
+  <div class="section-inner">
+    <span class="section-label">▸ Acceso al archivo</span>
+    <h2 class="section-title">El expediente <em>existe</em>.</h2>
+    <p>
+      Lo que se documenta aquí es lo que AethraTech no quiso que nadie leyera. Cada escena, cada línea de diálogo, cada decisión del equipo está registrada. El mundo exterior no sabe lo que ocurre debajo del hielo. Pero tú sí puedes saberlo.
+    </p>
+    <a href="archivo001.html" class="btn-primary">Acceder al archivo 001</a>
+    <br><br>
+    <a href="proyectocelsius.html" class="btn-danger" style="margin-left:0;">Ver Proyecto Celsius</a>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════ FOOTER ═══════════════════════════════════════ -->
+<footer>
+  <p class="footer-logo">PROYECTO CELSIUS</p>
+  <p class="footer-sub">© 2025 — Protocolo HADES activo · Toda información es confidencial · Acceso no autorizado será reportado</p>
+</footer>
+
+<!-- ═══════════════════════════════════════ SCRIPTS ═══════════════════════════════════════ -->
+<script>
+// ── PARTÍCULAS DE HIELO ──
+const canvas = document.getElementById('particles');
+const ctx = canvas.getContext('2d');
+let W, H, particles;
+
+function resize() {
+  W = canvas.width  = window.innerWidth;
+  H = canvas.height = window.innerHeight;
+}
+
+function createParticles() {
+  particles = [];
+  const count = Math.floor((W * H) / 18000);
+  for (let i = 0; i < count; i++) {
+    particles.push({
+      x: Math.random() * W,
+      y: Math.random() * H,
+      r: Math.random() * 1.5 + 0.3,
+      vx: (Math.random() - 0.5) * 0.15,
+      vy: Math.random() * 0.2 + 0.05,
+      o: Math.random() * 0.4 + 0.1
+    });
+  }
+}
+
+function draw() {
+  ctx.clearRect(0, 0, W, H);
+  for (const p of particles) {
+    ctx.beginPath();
+    ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+    ctx.fillStyle = `rgba(150,230,255,${p.o})`;
+    ctx.fill();
+    p.x += p.vx;
+    p.y += p.vy;
+    if (p.y > H + 5) { p.y = -5; p.x = Math.random() * W; }
+    if (p.x < -5) p.x = W + 5;
+    if (p.x > W + 5) p.x = -5;
+  }
+  requestAnimationFrame(draw);
+}
+
+window.addEventListener('resize', () => { resize(); createParticles(); });
+resize();
+createParticles();
+draw();
+
+// ── SCROLL REVEAL TIMELINE ──
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.15 });
+
+document.querySelectorAll('.timeline-item').forEach(el => observer.observe(el));
+</script>
+
 </body>
-</html>
-
-
 </html>
