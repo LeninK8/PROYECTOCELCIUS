@@ -1,253 +1,1387 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>📘 Proyecto Celsius: Antídoto Cero</title>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Antídoto Cero — Capítulo 1</title>
+  <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,400;0,600;1,400&family=Orbitron:wght@400;700&family=Space+Mono&display=swap" rel="stylesheet"/>
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
+    :root {
+      --bg: #07090f;
+      --bg2: #0c1018;
+      --bg3: #111827;
+      --cyan: #00f0ff;
+      --cyan2: #00b8cc;
+      --gold: #f0c040;
+      --red: #ff3355;
+      --text: #dde8f0;
+      --text2: #8fa8bc;
+      --border: rgba(0,240,255,0.12);
+      --panel: rgba(12,16,24,0.97);
     }
-
+    *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+    html { scroll-behavior: smooth; }
     body {
-      background-color: #0b0b0b;
-      color: #e0e0e0;
-      font-family: 'Segoe UI', sans-serif;
-      line-height: 1.6;
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Crimson Pro', Georgia, serif;
+      font-size: 18px;
+      line-height: 1.85;
       overflow-x: hidden;
+      min-height: 100vh;
+    }
+    /* scanlines */
+    body::before {
+      content:'';
+      position:fixed;
+      inset:0;
+      background: repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(0,0,0,0.04) 3px,rgba(0,0,0,0.04) 4px);
+      pointer-events:none;
+      z-index:9999;
+    }
+    /* bg ambient */
+    body::after {
+      content:'';
+      position:fixed;
+      inset:0;
+      background:
+        radial-gradient(ellipse 70% 50% at 50% 0%, rgba(0,180,220,0.06) 0%, transparent 70%),
+        radial-gradient(ellipse 40% 30% at 90% 80%, rgba(0,240,255,0.03) 0%, transparent 60%);
+      pointer-events:none;
+      z-index:0;
     }
 
-    h1 {
-      text-align: center;
-      padding: 2rem 1rem 1rem;
-      font-size: 2.8rem;
-      color: #00ffee;
-      text-shadow: 0 0 8px #00ffee88;
-    }
-
-    .btn-back {
-      display: block;
-      margin: auto;
-      margin-top: -2rem;
-      margin-bottom: 2rem;
-      padding: 0.7rem 1.5rem;
-      background-color: #ffd700;
-      color: #000;
-      text-decoration: none;
-      border-radius: 25px;
-      font-weight: bold;
-      box-shadow: 0 0 10px #ffd70077;
-      transition: all 0.3s ease;
-      width: fit-content;
-    }
-
-    .btn-back:hover {
-      background-color: #fff;
-      color: #111;
-      box-shadow: 0 0 15px #ffd700aa;
-    }
-
-    section {
+    /* ── HEADER ── */
+    header {
       position: relative;
-      padding: 4rem 2rem;
-      max-width: 900px;
-      margin: auto;
-      margin-bottom: 4rem;
-      background-color: #111111cc;
-      border: 1px solid #00ffee33;
-      border-radius: 12px;
-      box-shadow: 0 0 20px #00ffee11;
+      z-index:2;
+      text-align: center;
+      padding: 3.5rem 2rem 2rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .header-eyebrow {
+      font-family: 'Space Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.3em;
+      color: var(--text2);
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+    }
+    header h1 {
+      font-family: 'Orbitron', sans-serif;
+      font-size: clamp(1.8rem, 5vw, 3.5rem);
+      font-weight: 700;
+      color: #fff;
+      text-shadow: 0 0 40px rgba(0,240,255,0.35);
+      letter-spacing: 0.05em;
+      margin-bottom: 0.3rem;
+    }
+    header h1 span { color: var(--cyan); }
+    .header-sub {
+      font-family: 'Space Mono', monospace;
+      font-size: 11px;
+      color: var(--text2);
+      letter-spacing: 0.15em;
+      margin-bottom: 1.5rem;
+    }
+    .music-control {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: rgba(0,240,255,0.05);
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      padding: 8px 20px;
+      cursor: pointer;
+      transition: all 0.3s;
+      font-family: 'Space Mono', monospace;
+      font-size: 11px;
+      color: var(--cyan2);
+      letter-spacing: 0.1em;
+    }
+    .music-control:hover { background: rgba(0,240,255,0.1); border-color: var(--cyan); color: var(--cyan); }
+    .music-dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: var(--text2);
+      transition: all 0.3s;
+    }
+    .music-dot.playing {
+      background: var(--cyan);
+      box-shadow: 0 0 8px var(--cyan);
+      animation: pulse 1.2s ease-in-out infinite;
+    }
+    @keyframes pulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.4)} }
+
+    /* ── LAYOUT ── */
+    .layout {
+      position: relative;
+      z-index: 2;
+      display: grid;
+      grid-template-columns: 260px 1fr;
+      gap: 0;
+      max-width: 1300px;
+      margin: 0 auto;
+      min-height: calc(100vh - 200px);
+    }
+    @media (max-width: 900px) {
+      .layout { grid-template-columns: 1fr; }
+      .sidebar { position: static !important; height: auto !important; }
+    }
+
+    /* ── SIDEBAR ── */
+    .sidebar {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      border-right: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
       overflow: hidden;
     }
-
-    section h2 {
-      font-size: 1.8rem;
-      color: #00c3ff;
-      margin-bottom: 1rem;
+    .sidebar-inner {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      overflow-y: auto;
+      padding: 2rem 1.5rem;
+      scrollbar-width: thin;
+      scrollbar-color: var(--border) transparent;
+    }
+    .sidebar-title {
+      font-family: 'Space Mono', monospace;
+      font-size: 9px;
+      letter-spacing: 0.25em;
+      color: var(--text2);
+      text-transform: uppercase;
+      margin-bottom: 1.5rem;
+      padding-bottom: 0.75rem;
+      border-bottom: 1px solid var(--border);
     }
 
-    section p {
-      color: #ccc;
-      text-align: justify;
-      margin-bottom: 1rem;
-    }
-
-    /* Estilo para el botón de música dentro del título */
-    .music-btn {
+    /* Scene nav */
+    .scene-nav { margin-bottom: 2rem; }
+    .scene-nav-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 0;
+      border-bottom: 1px solid rgba(0,240,255,0.04);
       cursor: pointer;
-      margin-left: 10px;
-      font-size: 1.5rem;
-      transition: all 0.3s ease;
+      transition: all 0.3s;
+      text-decoration: none;
+      color: var(--text2);
+      font-family: 'Space Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.05em;
+    }
+    .scene-nav-item:hover { color: var(--cyan); padding-left: 6px; }
+    .scene-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--text2); flex-shrink:0; transition: all 0.3s; }
+    .scene-nav-item:hover .scene-dot { background: var(--cyan); box-shadow: 0 0 6px var(--cyan); }
+
+    /* Comment box */
+    .comment-box {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 1.25rem;
+      flex-shrink: 0;
+    }
+    .comment-box-title {
+      font-family: 'Space Mono', monospace;
+      font-size: 9px;
+      letter-spacing: 0.2em;
+      color: var(--cyan2);
+      margin-bottom: 1rem;
+    }
+    .comment-box textarea {
+      width: 100%;
+      background: var(--bg);
+      border: 1px solid rgba(0,240,255,0.1);
+      border-radius: 3px;
+      color: var(--text);
+      font-family: 'Crimson Pro', serif;
+      font-size: 14px;
+      line-height: 1.6;
+      padding: 0.75rem;
+      resize: vertical;
+      min-height: 90px;
+      transition: border-color 0.3s;
+    }
+    .comment-box textarea::placeholder { color: rgba(143,168,188,0.4); }
+    .comment-box textarea:focus { outline: none; border-color: var(--cyan2); }
+    .comment-box input {
+      width: 100%;
+      background: var(--bg);
+      border: 1px solid rgba(0,240,255,0.1);
+      border-radius: 3px;
+      color: var(--text);
+      font-family: 'Space Mono', monospace;
+      font-size: 11px;
+      padding: 0.5rem 0.75rem;
+      margin-bottom: 0.75rem;
+      transition: border-color 0.3s;
+    }
+    .comment-box input::placeholder { color: rgba(143,168,188,0.4); }
+    .comment-box input:focus { outline: none; border-color: var(--cyan2); }
+    .btn-comment {
+      width: 100%;
+      background: rgba(0,240,255,0.08);
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      color: var(--cyan2);
+      font-family: 'Space Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.1em;
+      padding: 0.6rem;
+      cursor: pointer;
+      transition: all 0.3s;
+      margin-top: 0.75rem;
+    }
+    .btn-comment:hover { background: rgba(0,240,255,0.15); border-color: var(--cyan); color: var(--cyan); }
+    .comments-list { margin-top: 1rem; max-height: 200px; overflow-y: auto; scrollbar-width: thin; }
+    .comment-item {
+      padding: 0.75rem 0;
+      border-bottom: 1px solid rgba(0,240,255,0.04);
+    }
+    .comment-item:last-child { border-bottom: none; }
+    .comment-author {
+      font-family: 'Space Mono', monospace;
+      font-size: 9px;
+      color: var(--cyan2);
+      letter-spacing: 0.1em;
+      margin-bottom: 4px;
+    }
+    .comment-text {
+      font-size: 13px;
+      color: var(--text2);
+      line-height: 1.5;
+    }
+    .no-comments {
+      font-family: 'Space Mono', monospace;
+      font-size: 10px;
+      color: rgba(143,168,188,0.4);
+      text-align: center;
+      padding: 1rem 0;
     }
 
-    .music-btn:hover {
-      color: #ffd700;
-      text-shadow: 0 0 10px #ffd700aa;
+    /* ── MAIN CONTENT ── */
+    .main {
+      padding: 3rem 4rem 5rem;
+      max-width: 800px;
     }
+    @media (max-width: 700px) { .main { padding: 2rem 1.5rem 4rem; } }
+
+    /* chapter header */
+    .chapter-header {
+      margin-bottom: 3rem;
+      padding-bottom: 2rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .chapter-eyebrow {
+      font-family: 'Space Mono', monospace;
+      font-size: 10px;
+      color: var(--cyan2);
+      letter-spacing: 0.2em;
+      margin-bottom: 0.75rem;
+    }
+    .chapter-title {
+      font-family: 'Orbitron', sans-serif;
+      font-size: clamp(1.3rem, 3vw, 2rem);
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 1rem;
+      line-height: 1.2;
+    }
+    .chapter-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+      font-family: 'Space Mono', monospace;
+      font-size: 10px;
+      color: var(--text2);
+    }
+    .chapter-meta span { display: flex; align-items: center; gap: 6px; }
+
+    /* scene */
+    .scene {
+      margin-bottom: 3.5rem;
+      scroll-margin-top: 2rem;
+    }
+    .scene-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 1.5rem;
+      padding-bottom: 0.75rem;
+      border-bottom: 1px solid rgba(0,240,255,0.08);
+    }
+    .scene-number {
+      font-family: 'Space Mono', monospace;
+      font-size: 10px;
+      color: var(--cyan);
+      letter-spacing: 0.1em;
+      flex-shrink: 0;
+    }
+    .scene-title {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 1rem;
+      font-weight: 400;
+      color: #fff;
+    }
+    .scene-tag {
+      font-family: 'Space Mono', monospace;
+      font-size: 9px;
+      padding: 3px 10px;
+      border-radius: 2px;
+      letter-spacing: 0.08em;
+      margin-left: auto;
+      flex-shrink: 0;
+    }
+    .tag-blue { background: rgba(0,100,200,0.15); color: #60b0ff; border: 1px solid rgba(0,100,200,0.25); }
+    .tag-purple { background: rgba(150,50,200,0.12); color: #cc88ff; border: 1px solid rgba(150,50,200,0.25); }
+    .tag-red { background: rgba(200,30,50,0.1); color: #ff8898; border: 1px solid rgba(200,30,50,0.2); }
+
+    .scene-location {
+      font-family: 'Space Mono', monospace;
+      font-size: 10px;
+      color: var(--text2);
+      letter-spacing: 0.1em;
+      margin-bottom: 1.5rem;
+      padding: 8px 12px;
+      background: rgba(0,240,255,0.03);
+      border-left: 2px solid var(--cyan2);
+      display: inline-block;
+    }
+
+    /* prose */
+    .prose p {
+      margin-bottom: 1.1rem;
+      color: var(--text);
+    }
+    .prose p strong { color: #fff; font-weight: 600; }
+
+    /* chat bubbles */
+    .chat-block {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 1.25rem 1.5rem;
+      margin: 1.5rem 0;
+      font-family: 'Space Mono', monospace;
+      font-size: 13px;
+    }
+    .chat-header {
+      font-size: 10px;
+      color: var(--cyan2);
+      letter-spacing: 0.15em;
+      margin-bottom: 1rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid rgba(0,240,255,0.08);
+    }
+    .chat-line {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 8px;
+      line-height: 1.5;
+    }
+    .chat-who {
+      color: var(--gold);
+      flex-shrink: 0;
+      min-width: 60px;
+    }
+    .chat-who.kira { color: #a0d0ff; }
+    .chat-who.nick { color: #88ffcc; }
+    .chat-who.elias { color: #ffb060; }
+    .chat-who.mile { color: #ff90c0; }
+    .chat-who.fernando { color: #c0a0ff; }
+    .chat-msg { color: var(--text2); }
+
+    /* dialogue */
+    .dialogue {
+      border-left: 2px solid rgba(0,240,255,0.2);
+      padding: 0.75rem 0 0.75rem 1.25rem;
+      margin: 1rem 0;
+      color: var(--text);
+      font-style: italic;
+    }
+    .speaker {
+      font-style: normal;
+      font-family: 'Space Mono', monospace;
+      font-size: 11px;
+      color: var(--cyan2);
+      letter-spacing: 0.08em;
+      margin-bottom: 4px;
+      display: block;
+    }
+
+    /* ── EDIT PANEL BUTTON ── */
+    .edit-btn-wrap {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      justify-content: center;
+      padding: 3rem 2rem;
+      border-top: 1px solid var(--border);
+    }
+    .btn-edit {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: rgba(240,192,64,0.07);
+      border: 1px solid rgba(240,192,64,0.3);
+      border-radius: 4px;
+      color: var(--gold);
+      font-family: 'Space Mono', monospace;
+      font-size: 12px;
+      letter-spacing: 0.15em;
+      padding: 1rem 2.5rem;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    .btn-edit:hover { background: rgba(240,192,64,0.14); border-color: var(--gold); box-shadow: 0 0 20px rgba(240,192,64,0.15); }
+
+    /* ── MODAL OVERLAY ── */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.85);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      backdrop-filter: blur(4px);
+    }
+    .modal-overlay.active { display: flex; }
+    .modal {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      width: 90%;
+      max-width: 780px;
+      max-height: 90vh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    .modal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.25rem 1.5rem;
+      border-bottom: 1px solid var(--border);
+      flex-shrink: 0;
+    }
+    .modal-title {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 0.9rem;
+      color: var(--gold);
+      letter-spacing: 0.05em;
+    }
+    .modal-close {
+      background: none;
+      border: none;
+      color: var(--text2);
+      cursor: pointer;
+      font-family: 'Space Mono', monospace;
+      font-size: 12px;
+      transition: color 0.3s;
+    }
+    .modal-close:hover { color: var(--red); }
+    .modal-body { padding: 1.5rem; overflow-y: auto; flex: 1; }
+
+    /* password gate */
+    .password-gate {
+      text-align: center;
+      padding: 2rem;
+    }
+    .password-gate p {
+      font-family: 'Space Mono', monospace;
+      font-size: 11px;
+      color: var(--text2);
+      letter-spacing: 0.1em;
+      margin-bottom: 1.5rem;
+      line-height: 1.8;
+    }
+    .pw-input {
+      background: var(--bg);
+      border: 1px solid rgba(0,240,255,0.15);
+      border-radius: 3px;
+      color: var(--text);
+      font-family: 'Space Mono', monospace;
+      font-size: 18px;
+      letter-spacing: 0.3em;
+      text-align: center;
+      padding: 0.75rem 1.5rem;
+      width: 200px;
+      margin-bottom: 1rem;
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .pw-input:focus { outline: none; border-color: var(--gold); }
+    .pw-error {
+      font-family: 'Space Mono', monospace;
+      font-size: 10px;
+      color: var(--red);
+      letter-spacing: 0.1em;
+      min-height: 1.2em;
+      margin-bottom: 1rem;
+    }
+    .btn-unlock {
+      background: rgba(240,192,64,0.1);
+      border: 1px solid rgba(240,192,64,0.3);
+      border-radius: 3px;
+      color: var(--gold);
+      font-family: 'Space Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.15em;
+      padding: 0.75rem 2rem;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    .btn-unlock:hover { background: rgba(240,192,64,0.2); }
+
+    /* editor */
+    .editor-panel { display: none; }
+    .editor-panel.active { display: block; }
+    .editor-context {
+      background: var(--bg);
+      border: 1px solid rgba(240,192,64,0.15);
+      border-radius: 4px;
+      padding: 1.25rem;
+      margin-bottom: 1.5rem;
+    }
+    .ec-title {
+      font-family: 'Space Mono', monospace;
+      font-size: 9px;
+      color: var(--gold);
+      letter-spacing: 0.2em;
+      margin-bottom: 1rem;
+    }
+    .ec-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+    @media (max-width:600px) { .ec-row { grid-template-columns: 1fr; } }
+    .ec-field label {
+      display: block;
+      font-family: 'Space Mono', monospace;
+      font-size: 9px;
+      color: var(--text2);
+      letter-spacing: 0.1em;
+      margin-bottom: 6px;
+    }
+    .ec-field input, .ec-field select {
+      width: 100%;
+      background: var(--bg2);
+      border: 1px solid rgba(0,240,255,0.1);
+      border-radius: 3px;
+      color: var(--text);
+      font-family: 'Space Mono', monospace;
+      font-size: 12px;
+      padding: 0.5rem 0.75rem;
+      transition: border-color 0.3s;
+    }
+    .ec-field input:focus, .ec-field select:focus { outline: none; border-color: var(--gold); }
+    .ec-field select option { background: var(--bg2); }
+    .scene-count-info {
+      font-family: 'Space Mono', monospace;
+      font-size: 10px;
+      color: var(--text2);
+      margin-bottom: 1rem;
+    }
+    .scene-count-info span { color: var(--gold); }
+    .editor-textarea {
+      width: 100%;
+      background: var(--bg);
+      border: 1px solid rgba(0,240,255,0.1);
+      border-radius: 3px;
+      color: var(--text);
+      font-family: 'Crimson Pro', serif;
+      font-size: 16px;
+      line-height: 1.8;
+      padding: 1rem;
+      min-height: 280px;
+      resize: vertical;
+      transition: border-color 0.3s;
+      margin-bottom: 1rem;
+    }
+    .editor-textarea:focus { outline: none; border-color: var(--gold); }
+    .editor-textarea::placeholder { color: rgba(143,168,188,0.3); }
+    .editor-actions {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+    .btn-save {
+      background: rgba(0,240,255,0.08);
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      color: var(--cyan2);
+      font-family: 'Space Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      padding: 0.6rem 1.5rem;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    .btn-save:hover { background: rgba(0,240,255,0.15); border-color: var(--cyan); color: var(--cyan); }
+    .btn-ai {
+      background: rgba(150,50,220,0.1);
+      border: 1px solid rgba(150,50,220,0.25);
+      border-radius: 3px;
+      color: #cc88ff;
+      font-family: 'Space Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      padding: 0.6rem 1.5rem;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    .btn-ai:hover { background: rgba(150,50,220,0.2); border-color: rgba(150,50,220,0.5); }
+    .saved-scenes {
+      margin-top: 1.5rem;
+      border-top: 1px solid var(--border);
+      padding-top: 1.5rem;
+    }
+    .saved-scenes-title {
+      font-family: 'Space Mono', monospace;
+      font-size: 9px;
+      color: var(--text2);
+      letter-spacing: 0.2em;
+      margin-bottom: 1rem;
+    }
+    .saved-scene-item {
+      background: var(--bg);
+      border: 1px solid rgba(0,240,255,0.06);
+      border-radius: 3px;
+      padding: 0.75rem 1rem;
+      margin-bottom: 0.75rem;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    .saved-scene-item:hover { border-color: var(--border); background: var(--bg2); }
+    .ssi-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 4px;
+    }
+    .ssi-title {
+      font-family: 'Space Mono', monospace;
+      font-size: 10px;
+      color: var(--cyan2);
+    }
+    .ssi-del {
+      background: none;
+      border: none;
+      color: var(--text2);
+      cursor: pointer;
+      font-size: 12px;
+      transition: color 0.3s;
+      font-family: 'Space Mono', monospace;
+    }
+    .ssi-del:hover { color: var(--red); }
+    .ssi-preview {
+      font-size: 12px;
+      color: var(--text2);
+      line-height: 1.4;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    .save-feedback {
+      font-family: 'Space Mono', monospace;
+      font-size: 10px;
+      color: #00e676;
+      letter-spacing: 0.1em;
+      margin-top: 0.5rem;
+      min-height: 1.2em;
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    .save-feedback.show { opacity: 1; }
+
+    /* ai response */
+    .ai-response {
+      background: rgba(150,50,220,0.06);
+      border: 1px solid rgba(150,50,220,0.2);
+      border-radius: 4px;
+      padding: 1.25rem;
+      margin-top: 1rem;
+      display: none;
+    }
+    .ai-response.active { display: block; }
+    .air-title {
+      font-family: 'Space Mono', monospace;
+      font-size: 9px;
+      color: #cc88ff;
+      letter-spacing: 0.15em;
+      margin-bottom: 0.75rem;
+    }
+    .air-content {
+      font-size: 15px;
+      color: var(--text);
+      line-height: 1.75;
+      white-space: pre-wrap;
+    }
+    .air-loading {
+      font-family: 'Space Mono', monospace;
+      font-size: 11px;
+      color: var(--text2);
+      letter-spacing: 0.1em;
+    }
+    .dots::after {
+      content: '';
+      animation: dotdot 1.5s steps(4) infinite;
+    }
+    @keyframes dotdot { 0%{content:''} 25%{content:'.'} 50%{content:'..'} 75%{content:'...'} }
   </style>
 </head>
 <body>
 
-  <h1>
-    📘 Proyecto Celsius: Antídoto Cero
-    <span class="music-btn" onclick="toggleMusica()" title="Reproducir/Pausar música">🔊</span>
-  </h1>
+<!-- ── HEADER ── -->
+<header>
+  <p class="header-eyebrow">// PROYECTO CELSIUS · DIVISIÓN HADES · 2025</p>
+  <h1>ANTÍDOTO <span>CERO</span></h1>
+  <p class="header-sub">NOVELA SERIALIZADA · LIMA, PERÚ</p>
+  <br>
+  <div class="music-control" onclick="toggleMusic()" id="musicBtn">
+    <div class="music-dot" id="musicDot"></div>
+    <span id="musicLabel">REPRODUCIR MÚSICA</span>
+  </div>
+</header>
 
-  <a href="index.html" class="btn-back">🔙 Volver al inicio</a>
+<!-- ── LAYOUT ── -->
+<div class="layout">
 
-  <section>
-  <h2>📖 Capítulo 1 – "Un martes cualquiera"</h2>
-  <p><strong>📅 Fecha:</strong> 6 de febrero de 2025</p>
-  <p><strong>🕘 Hora inicial:</strong> 10:15 a.m.</p>
-  <p><strong>📍 Ubicación:</strong> Departamento, Lima – Perú</p>
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+      <p class="sidebar-title">// NAVEGACIÓN</p>
 
-  <p><strong>🟦 ESCENA 1: Café, Croissants y Aburrimiento</strong><br>
-  La luz del sol entraba por la ventana del tercer piso. Sobre la mesa reposaban una taza de café caliente y un plato con tres croissants. La televisión se encendió sola con el noticiero matutino. Una reportera hablaba de un robo que había ocurrido un día antes en una casa del distrito.<br>
-  —Que no pasan nada bueno estos días por la televisión… —refunfuñó una voz femenina mientras lanzaba el control al mueble.<br>
-  Se levantó y fue al fregadero de la cocina para lavarse las manos. Mientras el agua corría, murmuró:<br>
-  —¿Dónde está la mantequilla? Recuerdo haberla visto… ah, aquí está.<br>
-  Abrió el refrigerador, la tomó y regresó a la mesa. Acomodó la silla, se sentó y comenzó a desayunar. La televisión seguía encendida. Con el ceño fruncido, masculló:<br>
-  —Qué aburrida mi vida… quiero salir a algún lugar.<br>
-  Terminó de embadurnar su croissant con mantequilla, tomó un sorbo de café y, fastidiada con un comercial de la tele, recogió los platos y la taza. Guardó la mantequilla en el refrigerador, miró el reloj y murmuró:<br>
-  —Son las 10:40… ya, saldré a caminar al parque.<br>
-  Se secó las manos, fue a su cuarto, escogió ropa y se cambió. Al revisar el celular, la pantalla mostró la hora: 10:47 a.m. y varias notificaciones.</p>
+      <nav class="scene-nav">
+        <a class="scene-nav-item" href="#escena1">
+          <div class="scene-dot"></div>ESCENA 1 · Café y croissants
+        </a>
+        <a class="scene-nav-item" href="#escena2">
+          <div class="scene-dot"></div>ESCENA 2 · Sanguchería
+        </a>
+        <a class="scene-nav-item" href="#escena3">
+          <div class="scene-dot"></div>ESCENA 3 · Mile llega
+        </a>
+      </nav>
 
-  <p><strong>📱 Chat – Fernando</strong><br>
-  Fernando: Hola, ¿cómo estás? ¿Tienes planes hoy?</p>
+      <div class="comment-box">
+        <p class="comment-box-title">// DEJAR COMENTARIO</p>
+        <input type="text" id="commentName" placeholder="Tu nombre (opcional)"/>
+        <textarea id="commentText" placeholder="¿Qué piensas de este capítulo?"></textarea>
+        <button class="btn-comment" onclick="saveComment()">ENVIAR OPINIÓN</button>
+        <div class="save-feedback" id="commentFeedback">Comentario guardado ✓</div>
+        <div class="comments-list" id="commentsList">
+          <p class="no-comments">Sé el primero en comentar.</p>
+        </div>
+      </div>
+    </div>
+  </aside>
 
-  <p><strong>📱 Grupo – Los Desvelados</strong><br>
-  Nick: Oigan chicos, ¿están despiertos?<br>
-  Elías: Claro, pues. No somos tan vagos.<br>
-  Lenin: Tú sí, Elías. Tú te duermes en clase.<br>
-  Nick: Jajajajajaja.<br>
-  Kira: Oigan, dejen de webear y hagan algo.<br>
-  Lenin: ¿Qué podríamos hacer? No hay nada, es feriado.<br>
-  Elías: Para ti todos los días son feriados.<br>
-  Nick: Es cierto.<br>
-  Lenin: -_-</p>
+  <!-- MAIN -->
+  <main class="main">
+    <div class="chapter-header">
+      <p class="chapter-eyebrow">// CAPÍTULO 001</p>
+      <h2 class="chapter-title">"Un martes cualquiera"</h2>
+      <div class="chapter-meta">
+        <span>📅 6 de febrero de 2025</span>
+        <span>🕘 10:15 a.m.</span>
+        <span>📍 Lima, Perú</span>
+        <span>3 escenas</span>
+      </div>
+    </div>
 
-  <p>Kira suspiró.<br>
-  —Qué miserable mi vida… solo una persona me escribe.<br>
-  Abrió el chat de Fernando y le contestó.</p>
+    <!-- ── ESCENA 1 ── -->
+    <div class="scene" id="escena1">
+      <div class="scene-header">
+        <span class="scene-number">ESC. 01</span>
+        <span class="scene-title">Café, Croissants y Aburrimiento</span>
+        <span class="scene-tag tag-blue">KIRA</span>
+      </div>
+      <div class="scene-location">📍 10:15 a.m. · Departamento de Kira · Lima</div>
 
-  <p><strong>📱 Chat – Fernando</strong><br>
-  Kira: No, no tengo nada. Estoy aburrida.<br>
-  Acordaron verse más tarde para cenar, aunque Kira no le dio mucha importancia. Esta historia no era solo sobre ella, sino de todos.<br>
-  Regresó al chat de Los Desvelados.</p>
+      <div class="prose">
+        <p>La luz del sol entraba por la ventana del tercer piso. Sobre la mesa reposaban una taza de café caliente y un plato con tres croissants. La televisión se encendió sola con el noticiero matutino. Una reportera hablaba de un robo que había ocurrido un día antes en una casa del distrito.</p>
 
-  <p><strong>📱 Grupo – Los Desvelados</strong><br>
-  Kira: Oigan, ¿ya vieron lo del paseo que habrá por expromo?<br>
-  Nick: ¿Por reencuentro, dices?<br>
-  Elías: ¡Asu! Acabamos la secundaria hace ya 2 años.<br>
-  Lenin: Ya, ¿pero a dónde es?<br>
-  Elías: Lee el grupo de expromo, oe. Ahí dice.<br>
-  Kira: A Canadá creo, y nos quedaríamos mes y medio. Así dijeron.<br>
-  Nick: Esos locos… está como mil dólares ida y vuelta.<br>
-  Lenin: ¿Asu, y todos los de la promo irán?<br>
-  Nick: Sí, ya confirmaron.<br>
-  Kira: En una semana sale el vuelo. Yo ya compré mi pasaje :P<br>
-  Elías: Yo igual… me duele mi bolsillo :c<br>
-  Nick: Gente pobre nomás le duele.<br>
-  Lenin: ¡Asu, ni enterado! Ni avisan, oe, se pasan.<br>
-  Elías: Pensé que sí habías leído.<br>
-  Kira: Este pendejo, oe… se pasa.<br>
-  Nick: Apura, compra el pasaje.<br>
-  Lenin: Yap :c. No avisan, miserables. ¿Alguien fuera de casa?<br>
-  Nick: Yo ando en la sanguchería frente al parque.<br>
-  Kira: Ah, justo estoy por el parque yo.<br>
-  Elías: ¡Asu! Espérenme, ahorita salgo.<br>
-  Lenin: Fuaa, a mí también espérenme. Ahí les caigo.</p>
+        <div class="dialogue">
+          <span class="speaker">KIRA</span>
+          —Que no pasan nada bueno estos días por la televisión…
+        </div>
 
-  <p><strong>🟪 ESCENA 2: Sanguchería y Risas</strong><br>
-  📍 11:05 a.m. – Parque frente a la sanguchería<br>
-  Elías terminó de cambiarse y salió de su casa. Apuró el paso mientras revisaba el celular.</p>
+        <p>Se levantó y fue al fregadero de la cocina para lavarse las manos. Mientras el agua corría, murmuró:</p>
 
-  <p><strong>📱 Grupo – Los Desvelados</strong><br>
-  Lenin: ¡Llegueeee al parque! :P<br>
-  Elías: Yo ya casi.<br>
-  Nick: Ya me pedí un pan con jamonada.<br>
-  Kira: Apúrense.</p>
+        <div class="dialogue">
+          <span class="speaker">KIRA</span>
+          —¿Dónde está la mantequilla? Recuerdo haberla visto… ah, aquí está.
+        </div>
 
-  <p>Elías dobló la esquina y vio a Lenin entrar a la sanguchería. Cruzó la calle, pasó por el parque y finalmente los alcanzó.<br>
-  —Holas, ¿qué pidieron? —preguntó.<br>
-  —Yo nada, ya desayuné. Los veré tragar —dijo Kira con sorna.<br>
-  —Un pan con hamburguesa y una Inka, porfa —pidió Lenin a la mesera.<br>
-  Nick, con la boca llena, balbuceó algo incomprensible.<br>
-  —¿Tú qué comerás, Elías? —preguntó.<br>
-  —Mmm, no sé, ya veré.<br>
-  —Si no, comes parado —bromeó Lenin.<br>
-  —Quizá se va al parque a comer —añadió Kira, arrancando risas de todos.<br>
-  Al final, Elías pidió lo mismo que Nick. Mientras todos devoraban, Kira los miraba de reojo.<br>
-  —Comen como animales.<br>
-  —¿Como tú? —retrucó Elías.<br>
-  —¡Jajajajaja! —rió Nick.<br>
-  —Inútil, por eso nadie te quiere —le lanzó Kira.<br>
-  —Uy, Elías, ¿no le dirás nada? —pinchó Lenin.<br>
-  —Calla, oe —respondió entre risas.</p>
+        <p>Abrió el refrigerador, la tomó y regresó a la mesa. Acomodó la silla, se sentó y comenzó a desayunar. La televisión seguía encendida. Con el ceño fruncido, masculló:</p>
 
-  <p>De pronto, Lenin recordó:<br>
-  —Oigan, ¿no falta alguien?<br>
-  —¿Quién? —preguntó Nick.<br>
-  —Pues Mile… ha de haberse quedado dormida. Como siempre.<br>
-  —¡Aaaaaaa! —exclamaron todos al mismo tiempo.<br>
-  —Alguien llámela que venga —dijo Nick.<br>
-  —Ya, llamada al grupo —anunció Kira, tomando el celular.<br>
-  —Sí, así presumimos dónde estamos —apoyó Elías.</p>
+        <div class="dialogue">
+          <span class="speaker">KIRA</span>
+          —Qué aburrida mi vida… quiero salir a algún lugar.
+        </div>
 
-  <p><strong>📱 Llamada grupal – Los Desvelados</strong><br>
-  Nick: ¿Seguirá dormida?<br>
-  Lenin: No creo, ya son las 11 y cuarto.<br>
-  📱 Mile: ¿Qué pasó? Recién me levanto.<br>
-  Lenin: Se nota que no haces nada en todo el día.<br>
-  Mile: ¿Dónde están? Para ir, pues.<br>
-  Kira: Andamos en la sanguchería frente al parque, ven rápido.<br>
-  Nick: Rápido o comes sola.<br>
-  Mile: Ya voy, espérenme, pues.<br>
-  Elías: Ya está cerrando, ya.<br>
-  Mile: Qué malos son, ¿por qué no me despertaron?<br>
-  Lenin: Ven rápido.<br>
-  La llamada terminó y todos siguieron conversando mientras la esperaban.</p>
+        <p>Terminó de embadurnar su croissant con mantequilla, tomó un sorbo de café y, fastidiada con un comercial de la tele, recogió los platos y la taza. Guardó la mantequilla en el refrigerador, miró el reloj y murmuró:</p>
 
-  <p><strong>🟥 ESCENA 3: Mile se une al grupo</strong><br>
-  📍 11:35 a.m. – Camino hacia el parque<br>
-  Mile salió de su casa apurada, murmurando:<br>
-  —Estos no me avisan de nada… se pasan.<br>
-  Avanzó varias cuadras revisando notificaciones en su celular, hasta que encontró la sanguchería frente al parque. Entró con energía.<br>
-  —¡Holaaaa, ya llegué! —gritó.<br>
-  —Ya cerró, ya nos tenemos que ir —bromeó Elías.<br>
-  —Ya fuiste —añadió Nick.<br>
-  —No les hagas caso, están fregando —dijo Kira.<br>
-  —Ya casi es mediodía, ¿cómo puedes dormir hasta esta hora? —reprochó Lenin.<br>
-  —Era feriado, ¿ok? —se defendió Mile.<br>
-  Una mesera se acercó con una sonrisa.<br>
-  —Disculpe, señorita, ¿puedo tomar su pedido?<br>
-  —Mmm, ¿qué hay en el menú? —preguntó Mile, mirando la carta.<br>
-  —Pan con chicharrón, pan con pollo, hamburguesa —enumeró Lenin.<br>
-  —Un triple también hay —agregó Elías.<br>
-  —Pan con jamón y queso, huevo revuelto, tamal, humita… —completó Kira.<br>
-  —Mmm, ya… un pan con jamón y queso y un jugo, por favor.<br>
-  —Enseguida lo traemos —respondió la mesera.<br>
-  El grupo la recibió entre bromas y sonrisas. La mañana recién empezaba.</p>
-</section>
+        <div class="dialogue">
+          <span class="speaker">KIRA</span>
+          —Son las 10:40… ya, saldré a caminar al parque.
+        </div>
 
-  <!-- Música de fondo -->
-  <audio id="musicaFondo" loop>
-    <source src="https://drive.google.com/file/d/1gH4zoFi92DERZfgxQtZ88D4KsUqmoAbs/view?usp=sharing" type="audio/mpeg">
-    Tu navegador no soporta audio.
-  </audio>
+        <p>Se secó las manos, fue a su cuarto, escogió ropa y se cambió. Al revisar el celular, la pantalla mostró la hora: 10:47 a.m., y varias notificaciones.</p>
 
-  <script>
-    const musica = document.getElementById('musicaFondo');
-    function toggleMusica() {
-      if (musica.paused) {
-        musica.play();
-      } else {
-        musica.pause();
-      }
-    }
-  </script>
+        <div class="chat-block">
+          <div class="chat-header">📱 CHAT PRIVADO · Fernando</div>
+          <div class="chat-line"><span class="chat-who fernando">Fernando</span><span class="chat-msg">Hola, ¿cómo estás? ¿Tienes planes hoy?</span></div>
+        </div>
 
+        <div class="chat-block">
+          <div class="chat-header">📱 GRUPO · Los Desvelados</div>
+          <div class="chat-line"><span class="chat-who nick">Nick</span><span class="chat-msg">Oigan chicos, ¿están despiertos?</span></div>
+          <div class="chat-line"><span class="chat-who elias">Elías</span><span class="chat-msg">Claro, pues. No somos tan vagos.</span></div>
+          <div class="chat-line"><span class="chat-who">Lenin</span><span class="chat-msg">Tú sí, Elías. Tú te duermes en clase.</span></div>
+          <div class="chat-line"><span class="chat-who nick">Nick</span><span class="chat-msg">Jajajajajaja.</span></div>
+          <div class="chat-line"><span class="chat-who kira">Kira</span><span class="chat-msg">Oigan, dejen de webear y hagan algo.</span></div>
+          <div class="chat-line"><span class="chat-who">Lenin</span><span class="chat-msg">¿Qué podríamos hacer? No hay nada, es feriado.</span></div>
+          <div class="chat-line"><span class="chat-who elias">Elías</span><span class="chat-msg">Para ti todos los días son feriados.</span></div>
+          <div class="chat-line"><span class="chat-who nick">Nick</span><span class="chat-msg">Es cierto.</span></div>
+          <div class="chat-line"><span class="chat-who">Lenin</span><span class="chat-msg">-_-</span></div>
+        </div>
+
+        <p>Kira suspiró y abrió el chat de Fernando.</p>
+
+        <div class="chat-block">
+          <div class="chat-header">📱 CHAT PRIVADO · Fernando</div>
+          <div class="chat-line"><span class="chat-who kira">Kira</span><span class="chat-msg">No, no tengo nada. Estoy aburrida.</span></div>
+        </div>
+
+        <p>Acordaron verse más tarde para cenar, aunque Kira no le dio mucha importancia. Regresó al chat grupal.</p>
+
+        <div class="chat-block">
+          <div class="chat-header">📱 GRUPO · Los Desvelados</div>
+          <div class="chat-line"><span class="chat-who kira">Kira</span><span class="chat-msg">Oigan, ¿ya vieron lo del paseo que habrá por expromo?</span></div>
+          <div class="chat-line"><span class="chat-who nick">Nick</span><span class="chat-msg">¿Por reencuentro, dices?</span></div>
+          <div class="chat-line"><span class="chat-who elias">Elías</span><span class="chat-msg">¡Asu! Acabamos la secundaria hace ya 2 años.</span></div>
+          <div class="chat-line"><span class="chat-who">Lenin</span><span class="chat-msg">Ya, ¿pero a dónde es?</span></div>
+          <div class="chat-line"><span class="chat-who elias">Elías</span><span class="chat-msg">Lee el grupo de expromo, oe. Ahí dice.</span></div>
+          <div class="chat-line"><span class="chat-who kira">Kira</span><span class="chat-msg">A Canadá creo, y nos quedaríamos mes y medio. Así dijeron.</span></div>
+          <div class="chat-line"><span class="chat-who nick">Nick</span><span class="chat-msg">Esos locos… está como mil dólares ida y vuelta.</span></div>
+          <div class="chat-line"><span class="chat-who">Lenin</span><span class="chat-msg">¿Asu, y todos los de la promo irán?</span></div>
+          <div class="chat-line"><span class="chat-who nick">Nick</span><span class="chat-msg">Sí, ya confirmaron.</span></div>
+          <div class="chat-line"><span class="chat-who kira">Kira</span><span class="chat-msg">En una semana sale el vuelo. Yo ya compré mi pasaje :P</span></div>
+          <div class="chat-line"><span class="chat-who elias">Elías</span><span class="chat-msg">Yo igual… me duele mi bolsillo :c</span></div>
+          <div class="chat-line"><span class="chat-who nick">Nick</span><span class="chat-msg">Gente pobre nomás le duele.</span></div>
+          <div class="chat-line"><span class="chat-who">Lenin</span><span class="chat-msg">¡Asu, ni enterado! Ni avisan, oe, se pasan.</span></div>
+          <div class="chat-line"><span class="chat-who elias">Elías</span><span class="chat-msg">Pensé que sí habías leído.</span></div>
+          <div class="chat-line"><span class="chat-who kira">Kira</span><span class="chat-msg">Este pendejo, oe… se pasa.</span></div>
+          <div class="chat-line"><span class="chat-who nick">Nick</span><span class="chat-msg">Apura, compra el pasaje.</span></div>
+          <div class="chat-line"><span class="chat-who">Lenin</span><span class="chat-msg">Yap :c. No avisan, miserables. ¿Alguien fuera de casa?</span></div>
+          <div class="chat-line"><span class="chat-who nick">Nick</span><span class="chat-msg">Yo ando en la sanguchería frente al parque.</span></div>
+          <div class="chat-line"><span class="chat-who kira">Kira</span><span class="chat-msg">Ah, justo estoy por el parque yo.</span></div>
+          <div class="chat-line"><span class="chat-who elias">Elías</span><span class="chat-msg">¡Asu! Espérenme, ahorita salgo.</span></div>
+          <div class="chat-line"><span class="chat-who">Lenin</span><span class="chat-msg">Fuaa, a mí también espérenme. Ahí les caigo.</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── ESCENA 2 ── -->
+    <div class="scene" id="escena2">
+      <div class="scene-header">
+        <span class="scene-number">ESC. 02</span>
+        <span class="scene-title">Sanguchería y Risas</span>
+        <span class="scene-tag tag-purple">GRUPO</span>
+      </div>
+      <div class="scene-location">📍 11:05 a.m. · Parque frente a la sanguchería · Lima</div>
+
+      <div class="prose">
+        <p>Elías terminó de cambiarse y salió de su casa. Apuró el paso mientras revisaba el celular.</p>
+
+        <div class="chat-block">
+          <div class="chat-header">📱 GRUPO · Los Desvelados</div>
+          <div class="chat-line"><span class="chat-who">Lenin</span><span class="chat-msg">¡Llegueeee al parque! :P</span></div>
+          <div class="chat-line"><span class="chat-who elias">Elías</span><span class="chat-msg">Yo ya casi.</span></div>
+          <div class="chat-line"><span class="chat-who nick">Nick</span><span class="chat-msg">Ya me pedí un pan con jamonada.</span></div>
+          <div class="chat-line"><span class="chat-who kira">Kira</span><span class="chat-msg">Apúrense.</span></div>
+        </div>
+
+        <p>Elías dobló la esquina y vio a Lenin entrar a la sanguchería. Cruzó la calle, pasó por el parque y finalmente los alcanzó.</p>
+
+        <div class="dialogue">
+          <span class="speaker">ELÍAS</span>
+          —Holas, ¿qué pidieron?
+        </div>
+        <div class="dialogue">
+          <span class="speaker">KIRA</span>
+          —Yo nada, ya desayuné. Los veré tragar.
+        </div>
+        <div class="dialogue">
+          <span class="speaker">LENIN</span>
+          —Un pan con hamburguesa y una Inka, porfa. <em>(a la mesera)</em>
+        </div>
+
+        <p>Nick, con la boca llena, balbuceó algo incomprensible.</p>
+
+        <div class="dialogue">
+          <span class="speaker">ELÍAS</span>
+          —¿Tú qué comerás, Elías?
+        </div>
+        <div class="dialogue">
+          <span class="speaker">ELÍAS</span>
+          —Mmm, no sé, ya veré.
+        </div>
+        <div class="dialogue">
+          <span class="speaker">LENIN</span>
+          —Si no, comes parado.
+        </div>
+        <div class="dialogue">
+          <span class="speaker">KIRA</span>
+          —Quizá se va al parque a comer.
+        </div>
+
+        <p>Todos rieron. Al final, Elías pidió lo mismo que Nick. Mientras todos devoraban, Kira los miraba de reojo.</p>
+
+        <div class="dialogue">
+          <span class="speaker">KIRA</span>
+          —Comen como animales.
+        </div>
+        <div class="dialogue">
+          <span class="speaker">ELÍAS</span>
+          —¿Como tú?
+        </div>
+        <div class="dialogue">
+          <span class="speaker">KIRA</span>
+          —Inútil, por eso nadie te quiere.
+        </div>
+        <div class="dialogue">
+          <span class="speaker">LENIN</span>
+          —Uy, Elías, ¿no le dirás nada?
+        </div>
+        <div class="dialogue">
+          <span class="speaker">ELÍAS</span>
+          —Calla, oe. <em>(entre risas)</em>
+        </div>
+
+        <p>De pronto, Lenin recordó:</p>
+
+        <div class="dialogue">
+          <span class="speaker">LENIN</span>
+          —Oigan, ¿no falta alguien?
+        </div>
+        <div class="dialogue">
+          <span class="speaker">NICK</span>
+          —¿Quién?
+        </div>
+        <div class="dialogue">
+          <span class="speaker">LENIN</span>
+          —Pues Mile… ha de haberse quedado dormida. Como siempre.
+        </div>
+
+        <p>—¡Aaaaaaa! —exclamaron todos al mismo tiempo.</p>
+
+        <div class="chat-block">
+          <div class="chat-header">📱 LLAMADA GRUPAL · Los Desvelados</div>
+          <div class="chat-line"><span class="chat-who nick">Nick</span><span class="chat-msg">¿Seguirá dormida?</span></div>
+          <div class="chat-line"><span class="chat-who">Lenin</span><span class="chat-msg">No creo, ya son las 11 y cuarto.</span></div>
+          <div class="chat-line"><span class="chat-who mile">Mile</span><span class="chat-msg">¿Qué pasó? Recién me levanto.</span></div>
+          <div class="chat-line"><span class="chat-who">Lenin</span><span class="chat-msg">Se nota que no haces nada en todo el día.</span></div>
+          <div class="chat-line"><span class="chat-who mile">Mile</span><span class="chat-msg">¿Dónde están? Para ir, pues.</span></div>
+          <div class="chat-line"><span class="chat-who kira">Kira</span><span class="chat-msg">Andamos en la sanguchería frente al parque, ven rápido.</span></div>
+          <div class="chat-line"><span class="chat-who nick">Nick</span><span class="chat-msg">Rápido o comes sola.</span></div>
+          <div class="chat-line"><span class="chat-who mile">Mile</span><span class="chat-msg">Ya voy, espérenme, pues.</span></div>
+          <div class="chat-line"><span class="chat-who elias">Elías</span><span class="chat-msg">Ya está cerrando, ya.</span></div>
+          <div class="chat-line"><span class="chat-who mile">Mile</span><span class="chat-msg">Qué malos son, ¿por qué no me despertaron?</span></div>
+          <div class="chat-line"><span class="chat-who">Lenin</span><span class="chat-msg">Ven rápido.</span></div>
+        </div>
+
+        <p>La llamada terminó y todos siguieron conversando mientras la esperaban.</p>
+      </div>
+    </div>
+
+    <!-- ── ESCENA 3 ── -->
+    <div class="scene" id="escena3">
+      <div class="scene-header">
+        <span class="scene-number">ESC. 03</span>
+        <span class="scene-title">Mile se une al grupo</span>
+        <span class="scene-tag tag-red">MILE</span>
+      </div>
+      <div class="scene-location">📍 11:35 a.m. · Camino hacia el parque · Lima</div>
+
+      <div class="prose">
+        <p>Mile salió de su casa apurada, murmurando:</p>
+
+        <div class="dialogue">
+          <span class="speaker">MILE</span>
+          —Estos no me avisan de nada… se pasan.
+        </div>
+
+        <p>Avanzó varias cuadras revisando notificaciones en su celular, hasta que encontró la sanguchería frente al parque. Entró con energía.</p>
+
+        <div class="dialogue">
+          <span class="speaker">MILE</span>
+          —¡Holaaaa, ya llegué!
+        </div>
+        <div class="dialogue">
+          <span class="speaker">ELÍAS</span>
+          —Ya cerró, ya nos tenemos que ir.
+        </div>
+        <div class="dialogue">
+          <span class="speaker">NICK</span>
+          —Ya fuiste.
+        </div>
+        <div class="dialogue">
+          <span class="speaker">KIRA</span>
+          —No les hagas caso, están fregando.
+        </div>
+        <div class="dialogue">
+          <span class="speaker">LENIN</span>
+          —Ya casi es mediodía, ¿cómo puedes dormir hasta esta hora?
+        </div>
+        <div class="dialogue">
+          <span class="speaker">MILE</span>
+          —Era feriado, ¿ok?
+        </div>
+
+        <p>Una mesera se acercó con una sonrisa.</p>
+
+        <div class="dialogue">
+          <span class="speaker">MESERA</span>
+          —Disculpe, señorita, ¿puedo tomar su pedido?
+        </div>
+        <div class="dialogue">
+          <span class="speaker">MILE</span>
+          —Mmm, ¿qué hay en el menú?
+        </div>
+        <div class="dialogue">
+          <span class="speaker">LENIN</span>
+          —Pan con chicharrón, pan con pollo, hamburguesa.
+        </div>
+        <div class="dialogue">
+          <span class="speaker">ELÍAS</span>
+          —Un triple también hay.
+        </div>
+        <div class="dialogue">
+          <span class="speaker">KIRA</span>
+          —Pan con jamón y queso, huevo revuelto, tamal, humita…
+        </div>
+        <div class="dialogue">
+          <span class="speaker">MILE</span>
+          —Mmm, ya… un pan con jamón y queso y un jugo, por favor.
+        </div>
+        <div class="dialogue">
+          <span class="speaker">MESERA</span>
+          —Enseguida lo traemos.
+        </div>
+
+        <p>El grupo la recibió entre bromas y sonrisas. La mañana recién empezaba, y ninguno de los cinco sabía aún lo que les esperaba.</p>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<!-- ── EDIT BUTTON ── -->
+<div class="edit-btn-wrap">
+  <button class="btn-edit" onclick="openModal()">
+    <span>✦</span>
+    CONTINUAR / EDITAR LA HISTORIA
+    <span>✦</span>
+  </button>
+</div>
+
+<!-- ── MODAL ── -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal">
+    <div class="modal-header">
+      <span class="modal-title">PANEL DE EDICIÓN — ANTÍDOTO CERO</span>
+      <button class="modal-close" onclick="closeModal()">[ CERRAR ]</button>
+    </div>
+    <div class="modal-body">
+
+      <!-- password gate -->
+      <div class="password-gate" id="passwordGate">
+        <p>ACCESO RESTRINGIDO<br><br>Este panel es exclusivo del autor.<br>Ingresa la clave de edición para continuar.</p>
+        <input type="password" class="pw-input" id="pwInput" placeholder="····" maxlength="10" onkeydown="if(event.key==='Enter')checkPw()"/>
+        <p class="pw-error" id="pwError"></p>
+        <button class="btn-unlock" onclick="checkPw()">DESBLOQUEAR</button>
+      </div>
+
+      <!-- editor -->
+      <div class="editor-panel" id="editorPanel">
+        <div class="editor-context">
+          <p class="ec-title">// CONTEXTO DE LA SIGUIENTE ESCENA</p>
+          <div class="ec-row">
+            <div class="ec-field">
+              <label>CAPÍTULO</label>
+              <input type="text" id="ctxCap" value="Capítulo 1 — Un martes cualquiera"/>
+            </div>
+            <div class="ec-field">
+              <label>ESCENA N°</label>
+              <input type="number" id="ctxEsc" value="4" min="1" max="16"/>
+            </div>
+          </div>
+          <div class="ec-row">
+            <div class="ec-field">
+              <label>FECHA EN LA HISTORIA</label>
+              <input type="text" id="ctxFecha" value="6 de febrero de 2025"/>
+            </div>
+            <div class="ec-field">
+              <label>HORA APROXIMADA</label>
+              <input type="text" id="ctxHora" value="12:10 p.m."/>
+            </div>
+          </div>
+          <div class="ec-row">
+            <div class="ec-field">
+              <label>UBICACIÓN</label>
+              <input type="text" id="ctxUbi" value="Parque frente a la sanguchería, Lima"/>
+            </div>
+            <div class="ec-field">
+              <label>PERSONAJES PRESENTES</label>
+              <input type="text" id="ctxPers" value="Kira, Nick, Elías, Lenin, Mile"/>
+            </div>
+          </div>
+          <p class="scene-count-info">Escenas del capítulo actual: <span id="sceneCountDisplay">3 / 12–16</span></p>
+        </div>
+
+        <textarea class="editor-textarea" id="editorArea" placeholder="Escribe aquí la nueva escena o continúa desde donde quedaste...&#10;&#10;Tip: cada capítulo debe tener entre 12 y 16 escenas. La última escena del cap. 1 debería cerrar el día o introducir el gancho que lleva al cap. 2."></textarea>
+
+        <div class="editor-actions">
+          <button class="btn-save" onclick="saveScene()">GUARDAR ESCENA</button>
+          <button class="btn-ai" onclick="getAISuggestion()">✦ SUGERENCIA IA</button>
+        </div>
+        <p class="save-feedback" id="saveFeedback">Escena guardada correctamente ✓</p>
+
+        <div class="ai-response" id="aiResponse">
+          <p class="air-title">// SUGERENCIA DE CONTINUACIÓN — IA</p>
+          <div class="air-content" id="aiContent"></div>
+        </div>
+
+        <div class="saved-scenes" id="savedScenesWrap" style="display:none">
+          <p class="saved-scenes-title">// ESCENAS GUARDADAS</p>
+          <div id="savedScenesList"></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ── AUDIO ── -->
+<audio id="bgMusic" loop>
+  <source src="https://cdn.pixabay.com/audio/2024/01/17/audio_e352f94f3e.mp3" type="audio/mpeg"/>
+  <source src="https://cdn.pixabay.com/audio/2022/11/17/audio_febc508520.mp3" type="audio/mpeg"/>
+</audio>
+
+<script>
+const STORAGE_KEY = 'antidotoCero_data';
+
+function getData() {
+  try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || { comments:[], scenes:[] }; }
+  catch(e) { return { comments:[], scenes:[] }; }
+}
+function setData(d) { localStorage.setItem(STORAGE_KEY, JSON.stringify(d)); }
+
+// ── MUSIC ──
+let musicStarted = false;
+const bgMusic = document.getElementById('bgMusic');
+bgMusic.volume = 0.35;
+
+function toggleMusic() {
+  if (bgMusic.paused) {
+    bgMusic.play().catch(()=>{});
+    document.getElementById('musicDot').classList.add('playing');
+    document.getElementById('musicLabel').textContent = 'PAUSAR MÚSICA';
+  } else {
+    bgMusic.pause();
+    document.getElementById('musicDot').classList.remove('playing');
+    document.getElementById('musicLabel').textContent = 'REPRODUCIR MÚSICA';
+  }
+}
+
+// ── COMMENTS ──
+function renderComments() {
+  const d = getData();
+  const list = document.getElementById('commentsList');
+  if (!d.comments.length) {
+    list.innerHTML = '<p class="no-comments">Sé el primero en comentar.</p>';
+    return;
+  }
+  list.innerHTML = d.comments.slice().reverse().map(c => `
+    <div class="comment-item">
+      <div class="comment-author">${c.name || 'ANÓNIMO'} · ${c.date}</div>
+      <div class="comment-text">${escHtml(c.text)}</div>
+    </div>
+  `).join('');
+}
+
+function saveComment() {
+  const name = document.getElementById('commentName').value.trim();
+  const text = document.getElementById('commentText').value.trim();
+  if (!text) return;
+  const d = getData();
+  d.comments.push({ name, text, date: new Date().toLocaleDateString('es-PE') });
+  setData(d);
+  document.getElementById('commentText').value = '';
+  renderComments();
+  const fb = document.getElementById('commentFeedback');
+  fb.classList.add('show');
+  setTimeout(() => fb.classList.remove('show'), 2500);
+}
+
+function escHtml(s) {
+  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+// ── MODAL ──
+function openModal() {
+  document.getElementById('modalOverlay').classList.add('active');
+  document.getElementById('pwInput').value = '';
+  document.getElementById('pwError').textContent = '';
+  document.getElementById('passwordGate').style.display = 'block';
+  document.getElementById('editorPanel').classList.remove('active');
+}
+function closeModal() {
+  document.getElementById('modalOverlay').classList.remove('active');
+}
+document.getElementById('modalOverlay').addEventListener('click', function(e){
+  if (e.target === this) closeModal();
+});
+
+// ── PASSWORD ──
+function checkPw() {
+  const val = document.getElementById('pwInput').value;
+  const err = document.getElementById('pwError');
+  if (val === '404') {
+    document.getElementById('passwordGate').style.display = 'none';
+    document.getElementById('editorPanel').classList.add('active');
+    loadSavedScenes();
+    updateSceneCount();
+  } else {
+    err.textContent = '⚠ CLAVE INCORRECTA';
+    document.getElementById('pwInput').value = '';
+    document.getElementById('pwInput').classList.add('shake');
+    setTimeout(() => document.getElementById('pwInput').classList.remove('shake'), 500);
+  }
+}
+
+// ── EDITOR ──
+function updateSceneCount() {
+  const d = getData();
+  const base = 3;
+  const extra = d.scenes.length;
+  document.getElementById('sceneCountDisplay').textContent = `${base + extra} / 12–16`;
+  const nextNum = base + extra + 1;
+  document.getElementById('ctxEsc').value = nextNum;
+}
+
+function saveScene() {
+  const cap = document.getElementById('ctxCap').value.trim();
+  const esc = document.getElementById('ctxEsc').value;
+  const fecha = document.getElementById('ctxFecha').value.trim();
+  const hora = document.getElementById('ctxHora').value.trim();
+  const ubi = document.getElementById('ctxUbi').value.trim();
+  const pers = document.getElementById('ctxPers').value.trim();
+  const text = document.getElementById('editorArea').value.trim();
+  if (!text) return;
+
+  const d = getData();
+  d.scenes.push({ cap, esc, fecha, hora, ubi, pers, text, saved: new Date().toLocaleString('es-PE') });
+  setData(d);
+  document.getElementById('editorArea').value = '';
+  loadSavedScenes();
+  updateSceneCount();
+
+  const fb = document.getElementById('saveFeedback');
+  fb.classList.add('show');
+  setTimeout(() => fb.classList.remove('show'), 2500);
+}
+
+function loadSavedScenes() {
+  const d = getData();
+  const wrap = document.getElementById('savedScenesWrap');
+  const list = document.getElementById('savedScenesList');
+  if (!d.scenes.length) { wrap.style.display = 'none'; return; }
+  wrap.style.display = 'block';
+  list.innerHTML = d.scenes.map((s, i) => `
+    <div class="saved-scene-item">
+      <div class="ssi-header">
+        <span class="ssi-title">ESC. ${String(s.esc).padStart(2,'0')} · ${s.fecha} ${s.hora} · ${s.ubi}</span>
+        <button class="ssi-del" onclick="deleteScene(${i},event)">✕</button>
+      </div>
+      <div class="ssi-preview">${escHtml(s.text)}</div>
+    </div>
+  `).join('');
+}
+
+function deleteScene(i, e) {
+  e.stopPropagation();
+  const d = getData();
+  d.scenes.splice(i, 1);
+  setData(d);
+  loadSavedScenes();
+  updateSceneCount();
+}
+
+// ── AI SUGGESTION ──
+async function getAISuggestion() {
+  const cap = document.getElementById('ctxCap').value;
+  const esc = document.getElementById('ctxEsc').value;
+  const fecha = document.getElementById('ctxFecha').value;
+  const hora = document.getElementById('ctxHora').value;
+  const ubi = document.getElementById('ctxUbi').value;
+  const pers = document.getElementById('ctxPers').value;
+  const prev = document.getElementById('editorArea').value;
+
+  const aiBox = document.getElementById('aiResponse');
+  const aiContent = document.getElementById('aiContent');
+  aiBox.classList.add('active');
+  aiContent.innerHTML = '<span class="air-loading">Generando sugerencia<span class="dots"></span></span>';
+
+  const prompt = `Eres el co-escritor de una novela serializada peruana llamada "Antídoto Cero" (Proyecto Celsius). 
+Contexto de la historia: un grupo de 5 amigos de Lima (Kira: 19, tímida al principio pero chevere de cerca, inteligente aunque floja; Nick: 20, serio y analítico, gamer; Elías: 19, muy estudioso, callado, gamer, tacaño, adicto a papitas; Lenin: 19, el más chistoso, burlón, sarcástico, atlético; Mile: 20, graciosa, tranquila) que van a un viaje de expromo a Canadá, lo que eventualmente los llevará a la Antártida y al virus VX-CEROUM de la corporación AethraTech. 
+El estilo de escritura usa jerga peruana coloquial, chats de WhatsApp con formato visual, diálogos dinámicos y marcadores de escena con fecha/hora/lugar.
+
+DATOS DE LA SIGUIENTE ESCENA:
+- ${cap}
+- Escena N°: ${esc}
+- Fecha: ${fecha}, ${hora}
+- Lugar: ${ubi}
+- Personajes: ${pers}
+${prev ? `- Borrador del escritor: "${prev.slice(0,300)}..."` : ''}
+
+Escribe una sugerencia de continuación para esta escena (máx. 250 palabras). Incluye diálogos con jerga peruana (oe, asu, fuaa, etc.), el ambiente cotidiano limeño y algún elemento que insinúe que algo raro está por suceder. NO uses markdown ni asteriscos.`;
+
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 1000,
+        messages: [{ role: 'user', content: prompt }]
+      })
+    });
+    const data = await res.json();
+    const text = data.content?.find(b => b.type === 'text')?.text || 'No se pudo generar sugerencia.';
+    aiContent.textContent = text;
+  } catch(err) {
+    aiContent.textContent = 'Error al conectar con la IA. Verifica tu conexión.';
+  }
+}
+
+// ── INIT ──
+renderComments();
+</script>
 </body>
 </html>
